@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.img_old {
+  display: inline;
+}
+span{
+    width: 100%;
+    padding: 30px;
+}
+
+#wrapper {
+  display: flex;
+}
+
+#left {
+  flex: 0 0 50%;
+}
+
+#right {
+  flex: 1;
+}
+
+img{
+    -webkit-transition: all .4s;
+    -moz-transition: all .4s;
+    -ms-transition: all .4se;
+    -o-transition: all .4s;
+    transition: all .4s;
+}
+.img_move{
+    -webkit-transform: translateX(400px);
+    -moz-transform: translateX(400px);
+    -ms-transform: translateX(400px);
+    -o-transform: translateX(400px);
+    transform: translateX(400px);
+}
+    
+.img_move2{
+    -webkit-transform: translateX(800px);
+    -moz-transform: translateX(800px);
+    -ms-transform: translateX(800px);
+    -o-transform: translateX(800px);
+    transform: translateX(800px);
+}
+</style>
+</head>
+<body>
+<h1>The z-index Property</h1>
+<div id="wrapper">
+  <div id="left">
+  	<span>
+      <img id="pic1" src="https://pbs.twimg.com/profile_images/1134660580/Puerco_Potter.jpg" alt="">
+    </span>
+  </div>
+  <div id="right">
+  	<img id="pic2" src="https://pbs.twimg.com/profile_images/1134660580/Puerco_Potter.jpg" alt="">
+  </div>
+</div>
+<script>
+	var image1 = document.getElementById('pic1');
+    var image2 = document.getElementById('pic2');
+    var counter = 0;
+    alert(image1.parentElement.parentNode.id);
+    image1.addEventListener('click', function(event){
+        if(counter === 0){
+         image1.className = "img_move";   
+        } else if(counter === 1) {
+          image1.className = "img_move2";  
+        }
+        counter++;
+    });
+    alert(image1.parentElement.parentNode.id);
+</script>
+
+</body>
+</html>

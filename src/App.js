@@ -6,7 +6,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      maxSquare: 80
+      maxSquare: 56
     };
   }
 

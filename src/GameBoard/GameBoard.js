@@ -16,7 +16,7 @@ class GameBoard extends Component {
     console.log("gameSquare: ", this.state.gameSquare);
     return (
       <div className="row">
-        <div className="col-sm-12">
+        <div className="col-md-12">
           <div className="css-grid-container">
             {this.state.gameSquare.map((element, i) => {
               return <Square key={i} indexNum={element} />;
