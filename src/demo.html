@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="../node_modules/jqueryui/jquery-ui.min.css" />
 <style>
 .img_old {
   display: inline;
@@ -22,56 +23,57 @@ span{
   flex: 1;
 }
 
-img{
+#pic1{
     -webkit-transition: all .4s;
     -moz-transition: all .4s;
-    -ms-transition: all .4se;
+    -ms-transition: all .4s;
     -o-transition: all .4s;
     transition: all .4s;
 }
 .img_move{
-    -webkit-transform: translateX(400px);
-    -moz-transform: translateX(400px);
-    -ms-transform: translateX(400px);
-    -o-transform: translateX(400px);
-    transform: translateX(400px);
+    -webkit-transform: translateY(400px);
+    -moz-transform: translateY(400px);
+    -ms-transform: translateY(400px);
+    -o-transform: translateY(400px);
+    transform: translateY(400px);
 }
     
 .img_move2{
-    -webkit-transform: translateX(800px);
-    -moz-transform: translateX(800px);
-    -ms-transform: translateX(800px);
-    -o-transform: translateX(800px);
-    transform: translateX(800px);
+    -webkit-transform: translateY(100px);
+    -moz-transform: translateY(100px);
+    -ms-transform: translateY(100px);
+    -o-transform: translateY(100px);
+    transform: translateY(100px);
 }
 </style>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="../node_modules/jqueryui/jquery-ui.min.js"></script>
 </head>
 <body>
-<h1>The z-index Property</h1>
+<h1>Demo of alien enemy movement and exploding</h1>
 <div id="wrapper">
   <div id="left">
-  	<span>
-      <img id="pic1" src="https://pbs.twimg.com/profile_images/1134660580/Puerco_Potter.jpg" alt="">
-    </span>
+    <img id="pic1" src="./img/001-alien.svg" width="100px" height="100px" alt="alien">
   </div>
   <div id="right">
-  	<img id="pic2" src="https://pbs.twimg.com/profile_images/1134660580/Puerco_Potter.jpg" alt="">
+  	<img id="pic2" src="./img/001-alien.svg" width="100px" height="100px" alt="alien">
   </div>
 </div>
 <script>
 	var image1 = document.getElementById('pic1');
-    var image2 = document.getElementById('pic2');
-    var counter = 0;
-    alert(image1.parentElement.parentNode.id);
-    image1.addEventListener('click', function(event){
-        if(counter === 0){
-         image1.className = "img_move";   
-        } else if(counter === 1) {
-          image1.className = "img_move2";  
-        }
-        counter++;
-    });
-    alert(image1.parentElement.parentNode.id);
+  var image2 = document.getElementById('pic2');
+  var counter = 0;
+  image1.addEventListener('click', function(event){
+      if(counter === 0){
+        image1.className = "img_move";   
+      } else if(counter === 1) {
+        image1.className = "img_move2";  
+      } else {
+        $("#pic2").toggle("explode");
+      }
+      counter++;
+  });
+  var parent = image1.parentElement.parentNode.id;
 </script>
 
 </body>

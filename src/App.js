@@ -6,7 +6,9 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      maxSquare: 56
+      maxSquare: 56,
+      noOfAliens: 15,
+      maxAliens: 35
     };
   }
 
@@ -23,7 +25,11 @@ class App extends Component {
           </div>
         </div>
         <br />
-        <GameBoard maxSquare={this.state.maxSquare} />
+        <GameBoard
+          maxSquare={this.state.maxSquare}
+          noOfAliens={this.state.noOfAliens}
+          maxAliens={this.state.maxAliens}
+        />
       </div>
     );
   }
