@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import Square from "../Square/Square";
 import EmptySquare from "../EmptySquare/EmptySquare";
-import { generateArray, randomizedArray } from "../Helper/Helper";
+import {
+  generateArray,
+  randomizedArray,
+  sortArray,
+  fixDuplicate
+} from "../Helper/Helper";
 import "./GameBoard.css";
 
 class GameBoard extends Component {
@@ -9,15 +14,27 @@ class GameBoard extends Component {
     super(props);
     this.state = {
       gameSquare: generateArray(this.props.maxSquare),
-      aliens: randomizedArray(this.props.noOfAliens, this.props.maxAliens)
+      aliens: randomizedArray(this.props.noOfAliens, this.props.maxAliens),
+      removeDuplicateAliens: []
     };
     this.checkIndex = this.checkIndex.bind(this);
+  }
+
+  componentWillMount() {
+    let copyAliens = [...this.state.aliens];
+    let sortedAliens = sortArray(copyAliens);
+    console.log("sortedAliens: ", sortedAliens);
+    let removeDuplicateAliens = fixDuplicate(sortedAliens);
+    this.setState({
+      removeDuplicateAliens: [...removeDuplicateAliens]
+    });
   }
 
   render() {
     console.log("GameBoard_maxSquare: ", this.props.maxSquare);
     console.log("gameSquare: ", this.state.gameSquare);
     console.log("Index number of Aliens: ", this.state.aliens);
+    console.log("Remove Aliens Duplicates: ", this.state.removeDuplicateAliens);
     return (
       <div className="row">
         <div className="col-sm-12">
@@ -43,11 +60,7 @@ class GameBoard extends Component {
         bool = true;
       }
     });
-    if (bool === true) {
-      return true;
-    } else {
-      return false;
-    }
+    return bool === true;
   }
 }
 
