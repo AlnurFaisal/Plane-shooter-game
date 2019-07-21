@@ -5,7 +5,9 @@ import {
   generateArray,
   randomizedArray,
   sortArray,
-  fixDuplicate
+  fixDuplicate,
+  randomizedDirection,
+  assignDirection
 } from "../Helper/Helper";
 import "./GameBoard.css";
 
@@ -15,6 +17,8 @@ class GameBoard extends Component {
     this.state = {
       gameSquare: generateArray(this.props.maxSquare),
       aliens: randomizedArray(this.props.noOfAliens, this.props.maxAliens),
+      getDirections: randomizedDirection(this.props.playableRows),
+      aliensDirection: {},
       removeDuplicateAliens: []
     };
     this.checkIndex = this.checkIndex.bind(this);
@@ -25,7 +29,12 @@ class GameBoard extends Component {
     let sortedAliens = sortArray(copyAliens);
     console.log("sortedAliens: ", sortedAliens);
     let removeDuplicateAliens = fixDuplicate(sortedAliens);
+    let storeDirections = assignDirection(
+      removeDuplicateAliens,
+      this.state.getDirections
+    );
     this.setState({
+      aliensDirection: Object.assign({}, storeDirections),
       removeDuplicateAliens: [...removeDuplicateAliens]
     });
   }
@@ -35,13 +44,14 @@ class GameBoard extends Component {
     console.log("gameSquare: ", this.state.gameSquare);
     console.log("Index number of Aliens: ", this.state.aliens);
     console.log("Remove Aliens Duplicates: ", this.state.removeDuplicateAliens);
+    console.log("Aliens directions: ", this.state.aliensDirection);
     return (
       <div className="row">
         <div className="col-sm-12">
           <div className="css-grid-container">
             {this.state.gameSquare.map((element, i) => {
               if (this.checkIndex(element)) {
-                return <Square key={i} indexNum={element} />;
+                return <Square key={i} indexNum={element} direction={this.state.aliensDirection[element]} />;
               } else {
                 return <EmptySquare key={i} indexNum={element} />;
               }

@@ -57,25 +57,94 @@ const compare = (a, b) => {
 };
 
 const findDuplicates = (a, b) => {
+  console.log("a: ", a);
+  console.log("b :", b);
   return a === b;
+};
+
+const firstRow = [1, 2, 3, 4, 5, 6, 7];
+const secondRow = [8, 9, 10, 11, 12, 13, 14];
+const thirdRow = [15, 16, 17, 18, 19, 20, 21];
+const forthRow = [22, 23, 24, 25, 26, 27, 28];
+const fifthRow = [29, 30, 31, 32, 33, 34, 35];
+
+const checkWhichRow = element => {
+  if (firstRow.includes(element)) {
+    return "first";
+  } else if (secondRow.includes(element)) {
+    return "second";
+  } else if (thirdRow.includes(element)) {
+    return "third";
+  } else if (forthRow.includes(element)) {
+    return "forth";
+  } else if (fifthRow.includes(element)) {
+    return "fifth";
+  }
+};
+
+const setDirection = (setRow, directionList, alienIndex, newDirection) => {
+  if (setRow === "first") {
+    newDirection[alienIndex] = directionList[0];
+  } else if (setRow === "second") {
+    newDirection[alienIndex] = directionList[1];
+  } else if (setRow === "third") {
+    newDirection[alienIndex] = directionList[2];
+  } else if (setRow === "forth") {
+    newDirection[alienIndex] = directionList[3];
+  } else if (setRow === "fifth") {
+    newDirection[alienIndex] = directionList[4];
+  }
+  return newDirection;
 };
 
 export const sortArray = arr => {
   return arr.sort(compare);
 };
 
+export const assignDirection = (alienList, randomDirectionList) => {
+  let mapAlienDirection = null;
+  let storeTempDirection = {};
+  let storeRow = null;
+  for (let i = 0; i < alienList.length; i++) {
+    storeRow = checkWhichRow(alienList[i]);
+    mapAlienDirection = setDirection(
+      storeRow,
+      randomDirectionList,
+      alienList[i],
+      storeTempDirection
+    );
+    Object.assign(storeTempDirection, mapAlienDirection);
+  }
+  return storeTempDirection;
+};
+
+export const randomizedDirection = numOfRows => {
+  let i = 0;
+  let arr = [];
+  let randomNum = null;
+  const direction = ["left", "right"];
+  while (i < numOfRows) {
+    randomNum = Math.floor(Math.random() * (direction.length - 1 - 0 + 1)) + 0;
+    arr.push(direction[randomNum]);
+    i++;
+  }
+  console.log("direction_array: ", arr);
+  return arr;
+};
+
 export const fixDuplicate = arr => {
   let i = 0;
+  let counter = 0;
   let copyArr = [...arr];
   const maxCount = arr.length;
-  console.log("array: ", copyArr);
   while (i < maxCount) {
     if (i === 0) {
       i += 1;
       continue;
     }
     if (findDuplicates(arr[i], arr[i - 1])) {
-      let removed = copyArr.splice(i, 1);
+      let removed = copyArr.splice(i - counter, 1);
+      counter++;
       console.log(`Removed ${removed} from aliens array.`);
     }
     i += 1;

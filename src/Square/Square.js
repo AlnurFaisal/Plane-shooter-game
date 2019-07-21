@@ -9,7 +9,7 @@ class Square extends Component {
         <img
           id={"alien_" + this.props.indexNum}
           src={alien}
-          alt="Alien"
+          alt={this.props.direction}
           className="alien_icon"
         />
       </div>

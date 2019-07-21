@@ -8,7 +8,8 @@ class App extends Component {
     this.state = {
       maxSquare: 56,
       noOfAliens: 15,
-      maxAliens: 35
+      maxAliens: 35,
+      playableRows: 5
     };
   }
 
@@ -29,6 +30,7 @@ class App extends Component {
           maxSquare={this.state.maxSquare}
           noOfAliens={this.state.noOfAliens}
           maxAliens={this.state.maxAliens}
+          playableRows={this.state.playableRows}
         />
       </div>
     );
