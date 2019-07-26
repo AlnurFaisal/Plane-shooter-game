@@ -7,7 +7,8 @@ import {
   sortArray,
   fixDuplicate,
   randomizedDirection,
-  assignDirection
+  assignDirection,
+  getInitialPixelValue
 } from "../Helper/Helper";
 import "./GameBoard.css";
 
@@ -51,7 +52,15 @@ class GameBoard extends Component {
           <div className="css-grid-container">
             {this.state.gameSquare.map((element, i) => {
               if (this.checkIndex(element)) {
-                return <Square key={i} indexNum={element} direction={this.state.aliensDirection[element]} />;
+                return (
+                  <Square
+                    key={i}
+                    indexNum={element}
+                    direction={this.state.aliensDirection[element]}
+                    stopMove={this.props.stopMove}
+                    initialPixelPosition={getInitialPixelValue(element)}
+                  />
+                );
               } else {
                 return <EmptySquare key={i} indexNum={element} />;
               }

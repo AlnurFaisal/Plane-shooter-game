@@ -9,8 +9,10 @@ class App extends Component {
       maxSquare: 56,
       noOfAliens: 15,
       maxAliens: 35,
-      playableRows: 5
+      playableRows: 5,
+      stopMove: false
     };
+    this.triggerStop = this.triggerStop.bind(this);
   }
 
   render() {
@@ -20,7 +22,11 @@ class App extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <h1 align="center" className="title_name">
+            <h1
+              align="center"
+              className="title_name"
+              onClick={this.triggerStop}
+            >
               Space Wars
             </h1>
           </div>
@@ -31,9 +37,16 @@ class App extends Component {
           noOfAliens={this.state.noOfAliens}
           maxAliens={this.state.maxAliens}
           playableRows={this.state.playableRows}
+          stopMove={this.state.stopMove}
         />
       </div>
     );
+  }
+
+  triggerStop() {
+    this.setState({
+      stopMove: true
+    });
   }
 }
 
