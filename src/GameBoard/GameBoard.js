@@ -20,24 +20,29 @@ class GameBoard extends Component {
       aliens: randomizedArray(this.props.noOfAliens, this.props.maxAliens),
       getDirections: randomizedDirection(this.props.playableRows),
       aliensDirection: {},
-      removeDuplicateAliens: []
+      removeDuplicateAliens: [],
+      currentItr: 0
     };
     this.checkIndex = this.checkIndex.bind(this);
   }
 
   componentWillMount() {
-    let copyAliens = [...this.state.aliens];
-    let sortedAliens = sortArray(copyAliens);
-    console.log("sortedAliens: ", sortedAliens);
-    let removeDuplicateAliens = fixDuplicate(sortedAliens);
-    let storeDirections = assignDirection(
-      removeDuplicateAliens,
-      this.state.getDirections
-    );
-    this.setState({
-      aliensDirection: Object.assign({}, storeDirections),
-      removeDuplicateAliens: [...removeDuplicateAliens]
-    });
+    if (this.state.currentItr === 0) {
+      let copyAliens = [...this.state.aliens];
+      let sortedAliens = sortArray(copyAliens);
+      let copyCurrentItr = this.state.currentItr;
+      console.log("sortedAliens: ", sortedAliens);
+      let removeDuplicateAliens = fixDuplicate(sortedAliens);
+      let storeDirections = assignDirection(
+        removeDuplicateAliens,
+        this.state.getDirections
+      );
+      this.setState({
+        aliensDirection: Object.assign({}, storeDirections),
+        removeDuplicateAliens: [...removeDuplicateAliens],
+        currentItr: copyCurrentItr += 1
+      });
+    }
   }
 
   render() {

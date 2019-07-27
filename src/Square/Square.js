@@ -7,9 +7,11 @@ class Square extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      milliseconds: 1000,
+      milliseconds: 1300,
       initialPixelPosition: props.initialPixelPosition,
-      currentPixelPosition: null
+      rewriteInitialPosition: null,
+      currentPixelPosition: null,
+      direction: props.direction
     };
     this.alienStyle = {
       padding: "5px 5px",
@@ -27,26 +29,48 @@ class Square extends Component {
     this.manageMovement = this.manageMovement.bind(this);
     this.triggerMovement = this.triggerMovement.bind(this);
     this.calculatePixelPosition = this.calculatePixelPosition.bind(this);
+    this.inverseDirection = this.inverseDirection.bind(this);
+    this.checkExceedEdge = this.checkExceedEdge.bind(this);
   }
 
   componentDidMount() {
     let initialPixel = this.state.initialPixelPosition;
-    const direction = this.props.direction;
-    const pixelMove = this.calculatePixelPosition(initialPixel, direction);
+    const pixelMove = this.calculatePixelPosition(
+      initialPixel,
+      this.state.direction
+    );
+    const pixelMoveNew = this.checkExceedEdge(
+      this.state.direction,
+      pixelMove,
+      this.alien.current.id
+    );
+    const direction = this.state.direction;
+    const truePixelMove =
+      pixelMoveNew !== undefined && pixelMoveNew !== null
+        ? pixelMoveNew
+        : pixelMove;
+    initialPixel =
+      this.state.rewriteInitialPosition !== null
+        ? this.state.rewriteInitialPosition
+        : this.state.initialPixelPosition;
     console.log("alien ids: ", this.alien.current.id);
     setTimeout(() => {
       $("#" + this.alien.current.id).addClass(
-        this.setMovement(direction, pixelMove, initialPixel)
+        this.setMovement(direction, truePixelMove, initialPixel)
       );
       console.log(
         `current pixel position for ${this.props.indexNum}: `,
-        pixelMove
+        truePixelMove
       );
-      this.setState({
-        currentPixelPosition: pixelMove
-      });
-      // call the manageMovement method below here
-      this.manageMovement();
+      this.setState(
+        {
+          currentPixelPosition: truePixelMove
+        },
+        () => {
+          // call the manageMovement method below here
+          this.manageMovement();
+        }
+      );
     }, this.state.milliseconds);
   }
 
@@ -56,7 +80,7 @@ class Square extends Component {
         <img
           id={"alien_" + this.props.indexNum}
           src={alien}
-          alt={this.props.direction}
+          alt={this.state.direction}
           ref={this.alien}
           style={this.alienStyle}
         />
@@ -87,16 +111,131 @@ class Square extends Component {
       this.triggerMovement(
         this.state.initialPixelPosition,
         this.state.currentPixelPosition,
-        this.props.direction,
         this.props.stopMove
       );
     }, this.state.milliseconds);
   }
 
-  triggerMovement(initialPixel, currentPixel, direction, stopMove) {
+  inverseDirection(direction) {
+    return direction === "left" ? "right" : "left";
+  }
+
+  checkExceedEdge(direction, currentPixel, alienId) {
+    const minValue = 0;
+    const maxValue = 948;
+    let exceed = false;
+    let value = null;
+    console.log("initial entry direction value: ", direction);
+    console.log("initial entry currentPixel value: ", currentPixel);
+    console.log(
+      "check currentPixel exceed maxValue: ",
+      currentPixel > maxValue
+    );
+    console.log(
+      "check currentPixel exceed minValue: ",
+      currentPixel < minValue
+    );
+    console.log(
+      "state.rewriteInitialPosition: ",
+      this.state.rewriteInitialPosition
+    );
+
+    if (
+      currentPixel - (this.state.initialPixelPosition - currentPixel) <
+        minValue &&
+      currentPixel < maxValue
+    ) {
+      exceed = true;
+      value = this.state.initialPixelPosition + 158;
+    } else if (
+      currentPixel + (currentPixel - this.state.initialPixelPosition) >
+        maxValue &&
+      currentPixel > minValue
+    ) {
+      exceed = true;
+      value = this.state.initialPixelPosition - 158;
+    }
+
+    if (currentPixel > maxValue && this.state.rewriteInitialPosition === null) {
+      exceed = true;
+      this.setState({
+        direction: this.inverseDirection(direction),
+        rewriteInitialPosition: 948
+      });
+      console.log(`currentPixel ${alienId}: `, currentPixel);
+      value = currentPixel - 316;
+    } else if (
+      currentPixel < minValue &&
+      this.state.rewriteInitialPosition === null
+    ) {
+      exceed = true;
+      this.setState({
+        direction: this.inverseDirection(direction),
+        rewriteInitialPosition: 0
+      });
+      console.log(`currentPixel ${alienId}: `, currentPixel);
+      value = currentPixel + 316;
+    } else if (
+      currentPixel > maxValue &&
+      this.state.rewriteInitialPosition === 0
+    ) {
+      exceed = true;
+      this.setState({
+        direction: this.inverseDirection(direction),
+        rewriteInitialPosition: null
+      });
+      console.log(`currentPixel ${alienId}: `, currentPixel);
+      value =
+        this.state.initialPixelPosition -
+          (this.state.initialPixelPosition - 158) <
+        minValue
+          ? this.state.initialPixelPosition + 316
+          : this.state.initialPixelPosition - 158;
+    } else if (
+      currentPixel < minValue &&
+      this.state.rewriteInitialPosition === 948
+    ) {
+      exceed = true;
+      this.setState({
+        direction: this.inverseDirection(direction),
+        rewriteInitialPosition: null
+      });
+      console.log(`currentPixel ${alienId}: `, currentPixel);
+      value =
+        this.state.initialPixelPosition +
+          158 -
+          this.state.initialPixelPosition >
+        maxValue
+          ? this.state.initialPixelPosition - 316
+          : this.state.initialPixelPosition + 158;
+    }
+    if (exceed === true) {
+      console.log(`returned currentPixel ${alienId}: `, value);
+      return value;
+    }
+  }
+
+  triggerMovement(initialPixel, currentPixel, stopMove) {
     // return the call to manageMovement if stopMove is still false
     // set the class and remove the unnecessary class after the 2 seconds iteration is complete
-    const pixelMove = this.calculatePixelPosition(currentPixel, direction);
+    const pixelMove = this.calculatePixelPosition(
+      currentPixel,
+      this.state.direction
+    );
+    const pixelMoveNew = this.checkExceedEdge(
+      this.state.direction,
+      pixelMove,
+      this.alien.current.id
+    );
+    const direction = this.state.direction;
+    const truePixelMove =
+      pixelMoveNew !== undefined && pixelMoveNew !== null
+        ? pixelMoveNew
+        : pixelMove;
+    initialPixel =
+      this.state.rewriteInitialPosition !== null
+        ? this.state.rewriteInitialPosition
+        : this.state.initialPixelPosition;
     console.log(
       `initial pixel position for ${this.props.indexNum}: `,
       initialPixel
@@ -105,12 +244,15 @@ class Square extends Component {
       `current pixel position for ${this.props.indexNum}: `,
       currentPixel
     );
-    console.log(`next pixel position for ${this.props.indexNum}: `, pixelMove);
+    console.log(
+      `next pixel position for ${this.props.indexNum}: `,
+      truePixelMove
+    );
     $("#" + this.alien.current.id).removeClass();
     $("#" + this.alien.current.id).addClass(
-      this.setMovement(direction, pixelMove, initialPixel)
+      this.setMovement(direction, truePixelMove, initialPixel)
     );
-    this.setState({ currentPixelPosition: pixelMove }, () => {
+    this.setState({ currentPixelPosition: truePixelMove }, () => {
       if (stopMove === false) {
         return this.manageMovement();
       }
