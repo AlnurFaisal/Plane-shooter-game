@@ -16,9 +16,9 @@ class GameBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameSquare: generateArray(this.props.maxSquare),
-      aliens: randomizedArray(this.props.noOfAliens, this.props.maxAliens),
-      getDirections: randomizedDirection(this.props.playableRows),
+      gameSquare: generateArray(props.maxSquare),
+      aliens: randomizedArray(props.noOfAliens, props.maxAliens),
+      getDirections: randomizedDirection(props.playableRows),
       aliensDirection: {},
       removeDuplicateAliens: [],
       currentItr: 0
@@ -40,17 +40,12 @@ class GameBoard extends Component {
       this.setState({
         aliensDirection: Object.assign({}, storeDirections),
         removeDuplicateAliens: [...removeDuplicateAliens],
-        currentItr: copyCurrentItr += 1
+        currentItr: (copyCurrentItr += 1)
       });
     }
   }
 
   render() {
-    console.log("GameBoard_maxSquare: ", this.props.maxSquare);
-    console.log("gameSquare: ", this.state.gameSquare);
-    console.log("Index number of Aliens: ", this.state.aliens);
-    console.log("Remove Aliens Duplicates: ", this.state.removeDuplicateAliens);
-    console.log("Aliens directions: ", this.state.aliensDirection);
     return (
       <div className="row">
         <div className="col-sm-12">
@@ -64,6 +59,7 @@ class GameBoard extends Component {
                     direction={this.state.aliensDirection[element]}
                     stopMove={this.props.stopMove}
                     initialPixelPosition={getInitialPixelValue(element)}
+                    updateAllAlienPosition={this.props.updateAllAlienPosition}
                   />
                 );
               } else {

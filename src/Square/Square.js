@@ -7,7 +7,7 @@ class Square extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      milliseconds: 1300,
+      milliseconds: 2000,
       initialPixelPosition: props.initialPixelPosition,
       rewriteInitialPosition: null,
       currentPixelPosition: null,
@@ -57,6 +57,11 @@ class Square extends Component {
     setTimeout(() => {
       $("#" + this.alien.current.id).addClass(
         this.setMovement(direction, truePixelMove, initialPixel)
+      );
+      this.props.updateAllAlienPosition(truePixelMove, this.props.indexNum, direction);
+      console.log(
+        `initial pixel position for ${this.props.indexNum}: `,
+        initialPixel
       );
       console.log(
         `current pixel position for ${this.props.indexNum}: `,
@@ -219,6 +224,7 @@ class Square extends Component {
     $("#" + this.alien.current.id).addClass(
       this.setMovement(direction, truePixelMove, initialPixel)
     );
+    this.props.updateAllAlienPosition(truePixelMove, this.props.indexNum, direction);
     this.setState({ currentPixelPosition: truePixelMove }, () => {
       if (stopMove === false) {
         return this.manageMovement();
