@@ -175,39 +175,6 @@ class Square extends Component {
       });
       console.log(`currentPixel ${alienId}: `, currentPixel);
       value = currentPixel + 316;
-    } else if (
-      currentPixel > maxValue &&
-      this.state.rewriteInitialPosition === 0
-    ) {
-      exceed = true;
-      this.setState({
-        direction: this.inverseDirection(direction),
-        rewriteInitialPosition: null
-      });
-      console.log(`currentPixel ${alienId}: `, currentPixel);
-      value =
-        this.state.initialPixelPosition -
-          (this.state.initialPixelPosition - 158) <
-        minValue
-          ? this.state.initialPixelPosition + 316
-          : this.state.initialPixelPosition - 158;
-    } else if (
-      currentPixel < minValue &&
-      this.state.rewriteInitialPosition === 948
-    ) {
-      exceed = true;
-      this.setState({
-        direction: this.inverseDirection(direction),
-        rewriteInitialPosition: null
-      });
-      console.log(`currentPixel ${alienId}: `, currentPixel);
-      value =
-        this.state.initialPixelPosition +
-          158 -
-          this.state.initialPixelPosition >
-        maxValue
-          ? this.state.initialPixelPosition - 316
-          : this.state.initialPixelPosition + 158;
     }
     if (exceed === true) {
       console.log(`returned currentPixel ${alienId}: `, value);
