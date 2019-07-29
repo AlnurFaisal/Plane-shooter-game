@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Square from "../Square/Square";
 import EmptySquare from "../EmptySquare/EmptySquare";
+import Plane from "../Plane/Plane";
 import {
   generateArray,
   randomizedArray,
@@ -8,7 +9,9 @@ import {
   fixDuplicate,
   randomizedDirection,
   assignDirection,
-  getInitialPixelValue
+  getInitialPixelValue,
+  checkSameRow,
+  checkEightCenter
 } from "../Helper/Helper";
 import "./GameBoard.css";
 
@@ -24,6 +27,7 @@ class GameBoard extends Component {
       currentItr: 0
     };
     this.checkIndex = this.checkIndex.bind(this);
+    this.setPlane = this.setPlane.bind(this);
   }
 
   componentWillMount() {
@@ -63,7 +67,11 @@ class GameBoard extends Component {
                   />
                 );
               } else {
-                return <EmptySquare key={i} indexNum={element} />;
+                return this.setPlane(element) ? (
+                  <Plane key={i} indexNum={element} />
+                ) : (
+                  <EmptySquare key={i} indexNum={element} />
+                );
               }
             })}
           </div>
@@ -81,6 +89,10 @@ class GameBoard extends Component {
       }
     });
     return bool === true;
+  }
+
+  setPlane(index) {
+    return checkSameRow(index) && checkEightCenter(index);
   }
 }
 

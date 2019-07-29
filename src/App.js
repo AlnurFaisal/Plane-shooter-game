@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import GameBoard from "./GameBoard/GameBoard";
+import GameController from "./GameController/GameController";
 import { secondColumn, sixthColumn } from "./Helper/Helper";
+import { Card } from "react-bootstrap";
 import "./App.css";
 
 class App extends Component {
@@ -36,14 +38,21 @@ class App extends Component {
           </div>
         </div>
         <br />
-        <GameBoard
-          maxSquare={this.state.maxSquare}
-          noOfAliens={this.state.noOfAliens}
-          maxAliens={this.state.maxAliens}
-          playableRows={this.state.playableRows}
-          stopMove={this.state.stopMove}
-          updateAllAlienPosition={this.updateAllAlienPosition}
-        />
+        <Card>
+          <Card.Body>
+            <GameBoard
+              maxSquare={this.state.maxSquare}
+              noOfAliens={this.state.noOfAliens}
+              maxAliens={this.state.maxAliens}
+              playableRows={this.state.playableRows}
+              stopMove={this.state.stopMove}
+              updateAllAlienPosition={this.updateAllAlienPosition}
+            />
+          </Card.Body>
+          <Card.Footer>
+            <GameController />
+          </Card.Footer>
+        </Card>
       </div>
     );
   }

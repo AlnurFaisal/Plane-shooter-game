@@ -1,0 +1,24 @@
+.arrowLeft {
+    height: 70px;
+    cursor: pointer;
+}
+
+.arrowRight {
+    height: 70px;
+    transform: rotate(180deg);
+    padding-right: 10px;
+    cursor: pointer; 
+}
+
+.pull-right {
+    float: right;
+}
+
+.fireButton {
+    font-weight: 700;
+}
+
+.scores {
+    font-weight: 700;
+    color: green;
+}
