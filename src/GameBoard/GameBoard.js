@@ -68,7 +68,17 @@ class GameBoard extends Component {
                 );
               } else {
                 return this.setPlane(element) ? (
-                  <Plane key={i} indexNum={element} />
+                  <Plane
+                    key={i}
+                    indexNum={element}
+                    getInitialPlanePosition={this.props.getInitialPlanePosition}
+                    currentPlanePosition={this.props.currentPlanePosition}
+                    currrentPlaneDirection={this.props.currrentPlaneDirection}
+                    getCurrentPlanePosition={this.props.getCurrentPlanePosition}
+                    getCurrentPlaneDirection={
+                      this.props.getCurrentPlaneDirection
+                    }
+                  />
                 ) : (
                   <EmptySquare key={i} indexNum={element} />
                 );

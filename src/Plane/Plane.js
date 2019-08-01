@@ -3,8 +3,13 @@ import "./Plane.css";
 import plane from "../img/002-ufo.svg";
 
 class Plane extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialPosition: props.getInitialPlanePosition(props.indexNum),
+      currentPosition: null,
+      currentDirection: null
+    };
     this.planeStyle = {
       padding: "5px 5px",
       marginLeft: "47px",
@@ -17,6 +22,18 @@ class Plane extends Component {
       transition: "all .4s"
     };
     this.plane = React.createRef();
+  }
+
+  componentWillUpdate(prevProps) {
+    if (
+      this.props.currentPlanePosition !== prevProps.currentPlanePosition ||
+      this.props.currentPlaneDirection !== prevProps.currentPlaneDirection
+    ) {
+      this.setState({
+        currentPosition: this.props.getCurrentPlanePosition(),
+        currentDirection: this.props.getCurrentPlaneDirection()
+      });
+    }
   }
 
   render() {

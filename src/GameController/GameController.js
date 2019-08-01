@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import * as $ from "jquery";
 import Button from "react-bootstrap/Button";
 import arrow from "../img/arrow.svg";
 import "./GameController.css";
 
 class GameController extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
   render() {
@@ -19,16 +21,50 @@ class GameController extends Component {
         <div className="col-md-4" align="center">
           <Button variant="primary" size="lg">
             <h2 className="fireButton">
-              Shoot <i class="fas fa-crosshairs fa-lg" />
+              Shoot <i className="fas fa-crosshairs fa-lg" />
             </h2>
           </Button>
         </div>
         <div className="col-md-4" align="center">
-          <img src={arrow} alt="left" id="left" className="arrowLeft" />
-          <img src={arrow} alt="right" id="right" className="arrowRight" />
+          <img
+            src={arrow}
+            alt="left"
+            id="left"
+            onClick={this.movement.bind(this, false)}
+            className="arrowLeft"
+          />
+          <img
+            src={arrow}
+            alt="right"
+            id="right"
+            onClick={this.movement.bind(this, false)}
+            className="arrowRight"
+          />
         </div>
       </div>
     );
+  }
+
+  movement(retry, event) {
+    console.log(
+      "Game_Controller Current Plane Position: ",
+      this.state.currentPlanePosition
+    );
+    event.preventDefault();
+    let directionId = event.target.id;
+    if (retry === false) {
+      directionId === "left"
+        ? this.props.moveLeft(this.props.currentPlanePosition)
+        : this.props.moveRight(this.props.currentPlanePosition);
+    }
+    setTimeout(() => {
+      $("#" + directionId).on("mousedown", () => {
+        directionId === "left"
+          ? this.props.moveLeft(this.props.currentPlanePosition)
+          : this.props.moveRight(this.props.currentPlanePosition);
+        this.movement.bind(this, true);
+      });
+    }, 1500);
   }
 }
 

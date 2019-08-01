@@ -63,17 +63,17 @@ const findDuplicates = (a, b) => {
 };
 
 const firstRow = [1, 2, 3, 4, 5, 6, 7];
-const firstColumn = [1, 8, 15, 22, 29];
+const firstColumn = [1, 8, 15, 22, 29, 36, 43, 50];
 const secondRow = [8, 9, 10, 11, 12, 13, 14];
-export const secondColumn = [2, 9, 16, 23, 30];
+export const secondColumn = [2, 9, 16, 23, 30, 37, 44, 51];
 const thirdRow = [15, 16, 17, 18, 19, 20, 21];
-const thirdColumn = [3, 10, 17, 24, 31];
+const thirdColumn = [3, 10, 17, 24, 31, 38, 45, 52];
 const forthRow = [22, 23, 24, 25, 26, 27, 28];
-const forthColumn = [4, 11, 18, 25, 32];
+const forthColumn = [4, 11, 18, 25, 32, 39, 46, 53];
 const fifthRow = [29, 30, 31, 32, 33, 34, 35];
-const fifthColumn = [5, 12, 19, 26, 33];
-export const sixthColumn = [6, 13, 20, 27, 34];
-const seventhColumn = [7, 14, 21, 28, 35];
+const fifthColumn = [5, 12, 19, 26, 33, 40, 47, 54];
+export const sixthColumn = [6, 13, 20, 27, 34, 41, 48, 55];
+const seventhColumn = [7, 14, 21, 28, 35, 42, 49, 56];
 const eighthRow = [50, 51, 52, 53, 54, 55, 56];
 
 export const checkSameRow = index => {
