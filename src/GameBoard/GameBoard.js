@@ -72,12 +72,12 @@ class GameBoard extends Component {
                     key={i}
                     indexNum={element}
                     getInitialPlanePosition={this.props.getInitialPlanePosition}
+                    initialPlanePosition={this.props.initialPlanePosition}
                     currentPlanePosition={this.props.currentPlanePosition}
                     currrentPlaneDirection={this.props.currrentPlaneDirection}
                     getCurrentPlanePosition={this.props.getCurrentPlanePosition}
-                    getCurrentPlaneDirection={
-                      this.props.getCurrentPlaneDirection
-                    }
+                    getCurrentPlaneDirection={this.props.getCurrentPlaneDirection}
+                    getInitialPosition={this.props.getInitialPosition}
                   />
                 ) : (
                   <EmptySquare key={i} indexNum={element} />

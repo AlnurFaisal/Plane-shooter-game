@@ -20,7 +20,8 @@ class App extends Component {
       stopMove: false,
       storeAllAlienPosition: {},
       currentPlanePosition: null,
-      currrentPlaneDirection: null
+      currrentPlaneDirection: null,
+      initialPlanePosition: null
     };
     this.triggerStop = this.triggerStop.bind(this);
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
@@ -30,6 +31,7 @@ class App extends Component {
     this.neverExceedEdge = this.neverExceedEdge.bind(this);
     this.getCurrentPlanePosition = this.getCurrentPlanePosition.bind(this);
     this.getCurrentPlaneDirection = this.getCurrentPlaneDirection.bind(this);
+    this.getInitialPosition = this.getInitialPosition.bind(this);
   }
 
   render() {
@@ -60,10 +62,12 @@ class App extends Component {
               stopMove={this.state.stopMove}
               updateAllAlienPosition={this.updateAllAlienPosition}
               getInitialPlanePosition={this.getInitialPlanePosition}
+              initialPlanePosition={this.state.initialPlanePosition}
               currentPlanePosition={this.state.currentPlanePosition}
               currrentPlaneDirection={this.state.currrentPlaneDirection}
               getCurrentPlanePosition={this.getCurrentPlanePosition}
               getCurrentPlaneDirection={this.getCurrentPlaneDirection}
+              getInitialPosition={this.getInitialPosition}
             />
           </Card.Body>
           <Card.Footer>
@@ -76,14 +80,6 @@ class App extends Component {
         </Card>
       </div>
     );
-  }
-
-  getCurrentPlanePosition() {
-    return this.state.currentPlanePosition;
-  }
-
-  getCurrentPlaneDirection() {
-    return this.state.currrentPlaneDirection;
   }
 
   updateAllAlienPosition(newPixelPosition, alienIndex, direction) {
@@ -105,11 +101,24 @@ class App extends Component {
     });
   }
 
+  getCurrentPlanePosition() {
+    return this.state.currentPlanePosition;
+  }
+
+  getCurrentPlaneDirection() {
+    return this.state.currrentPlaneDirection;
+  }
+
+  getInitialPosition() {
+    return this.state.initialPlanePosition;
+  }
+
   getInitialPlanePosition(element) {
     /* use the helper method to fetch the pixel value of the current plane position
        and update the initial position of the plane in the state */
     const pixelValue = getInitialPixelValue(element);
     this.setState({
+      initialPlanePosition: pixelValue,
       currentPlanePosition: pixelValue
     });
   }
@@ -129,11 +138,17 @@ class App extends Component {
     // if move left will over hit the edge, stay in the most left square
     // will update the state value the plane position and direction after the move and this value will be passed down to plane component
     console.log("currPosition: ", currPosition);
+    console.log("move left App.js: ", true);
     if (this.neverExceedEdge(currPosition, "left")) {
-      this.setState({
-        currentPlanePosition: currPosition - 158,
-        currrentPlaneDirection: "left"
-      });
+      this.setState(
+        {
+          currentPlanePosition: currPosition - 158,
+          currrentPlaneDirection: "left"
+        },
+        () => {
+          return;
+        }
+      );
     }
   }
 
@@ -142,11 +157,17 @@ class App extends Component {
     // if move right will over hit the edge, stay in the most right square
     // will update the state value the plane position and direction after the move and this value will be passed down to plane component
     console.log("currPosition: ", currPosition);
+    console.log("move right App.js: ", true);
     if (this.neverExceedEdge(currPosition, "right")) {
-      this.setState({
-        currentPlanePosition: currPosition + 158,
-        currrentPlaneDirection: "right"
-      });
+      this.setState(
+        {
+          currentPlanePosition: currPosition + 158,
+          currrentPlaneDirection: "right"
+        },
+        () => {
+          return;
+        }
+      );
     }
   }
 

@@ -7,7 +7,9 @@ import "./GameController.css";
 class GameController extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      milliseconds: 10000
+    };
   }
 
   render() {
@@ -48,23 +50,24 @@ class GameController extends Component {
   movement(retry, event) {
     console.log(
       "Game_Controller Current Plane Position: ",
-      this.state.currentPlanePosition
+      this.props.currentPlanePosition
     );
     event.preventDefault();
     let directionId = event.target.id;
+    console.log("directionId: ", directionId);
     if (retry === false) {
       directionId === "left"
         ? this.props.moveLeft(this.props.currentPlanePosition)
         : this.props.moveRight(this.props.currentPlanePosition);
     }
-    setTimeout(() => {
+    /*setTimeout(() => {
       $("#" + directionId).on("mousedown", () => {
         directionId === "left"
           ? this.props.moveLeft(this.props.currentPlanePosition)
           : this.props.moveRight(this.props.currentPlanePosition);
         this.movement.bind(this, true);
       });
-    }, 1500);
+    }, this.state.milliseconds);*/
   }
 }
 
