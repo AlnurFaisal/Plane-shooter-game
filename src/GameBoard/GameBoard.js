@@ -76,7 +76,9 @@ class GameBoard extends Component {
                     currentPlanePosition={this.props.currentPlanePosition}
                     currrentPlaneDirection={this.props.currrentPlaneDirection}
                     getCurrentPlanePosition={this.props.getCurrentPlanePosition}
-                    getCurrentPlaneDirection={this.props.getCurrentPlaneDirection}
+                    getCurrentPlaneDirection={
+                      this.props.getCurrentPlaneDirection
+                    }
                     getInitialPosition={this.props.getInitialPosition}
                   />
                 ) : (

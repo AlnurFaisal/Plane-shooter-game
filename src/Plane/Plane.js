@@ -4,15 +4,13 @@ import "./Plane.css";
 import plane from "../img/002-ufo.svg";
 
 class Plane extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       counter: 0,
       initialPosition: null,
       currentPosition: null,
-      currentDirection: null,
-      previousPosition: null,
-      rewriteInitial: false
+      currentDirection: null
     };
     this.planeStyle = {
       padding: "5px 5px",
@@ -27,24 +25,12 @@ class Plane extends Component {
     };
     this.plane = React.createRef();
     this.setMovement = this.setMovement.bind(this);
+    this.inverseDirection = this.inverseDirection.bind(this);
+    this.handleNegativeValue = this.handleNegativeValue.bind(this);
   }
 
   componentWillUpdate(prevProps) {
     console.log("Previous plane position: ", this.state.currentPosition);
-    let copyPreviousPosition = this.state.previousPosition
-      ? this.state.previousPosition
-      : null;
-    if (
-      this.state.currentPosition === 0 ||
-      this.state.currentPosition === 948
-    ) {
-      copyPreviousPosition = this.state.currentPosition;
-    }
-    let rewriteInitial =
-      copyPreviousPosition === 0 || copyPreviousPosition === 948;
-    if (this.state.currentPosition === 474) {
-      rewriteInitial = false;
-    }
     if (
       this.props.currentPlanePosition !== prevProps.currentPlanePosition ||
       this.props.currentPlaneDirection !== prevProps.currentPlaneDirection ||
@@ -54,25 +40,19 @@ class Plane extends Component {
         {
           initialPosition: this.props.getInitialPosition(),
           currentPosition: this.props.getCurrentPlanePosition(),
-          currentDirection: this.props.getCurrentPlaneDirection(),
-          previousPosition: copyPreviousPosition,
-          rewriteInitial: rewriteInitial
+          currentDirection: this.props.getCurrentPlaneDirection()
         },
         () => {
           console.log("Initial Plane Position: ", this.state.initialPosition);
           console.log("Current Plane Position: ", this.state.currentPosition);
           console.log("Current Plane Direction: ", this.state.currentDirection);
           console.log("Initializing plane movement: ", true);
-          const previousPosition =
-            this.state.rewriteInitial === true
-              ? this.state.previousPosition
-              : this.state.initialPosition;
           $("#" + this.plane.current.id).removeClass();
           $("#" + this.plane.current.id).addClass(
             this.setMovement(
               this.state.currentDirection,
               this.state.currentPosition,
-              previousPosition
+              this.state.initialPosition
             )
           );
         }
@@ -103,6 +83,17 @@ class Plane extends Component {
     );
   }
 
+  inverseDirection(direction) {
+    return direction === "left" ? "right" : "left";
+  }
+
+  handleNegativeValue(value, direction) {
+    value = value * -1;
+    direction = this.inverseDirection(direction);
+    const obj = { value: value, direction: direction };
+    return obj;
+  }
+
   setMovement(direction, nextPixel, initialPixel) {
     let value = null;
     if (direction === "left") {
@@ -118,7 +109,16 @@ class Plane extends Component {
         value
       );
     }
-    return direction === "left" ? `move_left_${value}` : `move_right_${value}`;
+
+    let obj =
+      value < 0
+        ? this.handleNegativeValue(value, direction)
+        : { value: value, direction: direction };
+    console.log("obj.value: ", obj.value);
+    console.log("obj.direction: ", obj.direction);
+    return obj.direction === "left"
+      ? `move_left_${obj.value}`
+      : `move_right_${obj.value}`;
   }
 }
 

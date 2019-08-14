@@ -60,14 +60,14 @@ class GameController extends Component {
         ? this.props.moveLeft(this.props.currentPlanePosition)
         : this.props.moveRight(this.props.currentPlanePosition);
     }
-    /*setTimeout(() => {
+    /* setTimeout(() => {
       $("#" + directionId).on("mousedown", () => {
         directionId === "left"
           ? this.props.moveLeft(this.props.currentPlanePosition)
           : this.props.moveRight(this.props.currentPlanePosition);
         this.movement.bind(this, true);
       });
-    }, this.state.milliseconds);*/
+    }, this.state.milliseconds); */
   }
 }
 
