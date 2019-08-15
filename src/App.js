@@ -87,14 +87,6 @@ class App extends Component {
       {},
       this.state.storeAllAlienPosition
     );
-    if (newPixelPosition === -158 || newPixelPosition === 1106) {
-      newPixelPosition = newPixelPosition === 1106 ? 948 : 0;
-    }
-    if (secondColumn.includes(alienIndex) && direction === "left") {
-      newPixelPosition = 158;
-    } else if (sixthColumn.includes(alienIndex) && direction === "right") {
-      newPixelPosition = 790;
-    }
     copyAllAlienPosition[alienIndex] = newPixelPosition;
     this.setState({
       storeAllAlienPosition: copyAllAlienPosition
