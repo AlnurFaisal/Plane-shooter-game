@@ -5,8 +5,8 @@ import arrow from "../img/arrow.svg";
 import "./GameController.css";
 
 class GameController extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       milliseconds: 10000
     };
@@ -21,7 +21,7 @@ class GameController extends Component {
           </h2>
         </div>
         <div className="col-md-4" align="center">
-          <Button variant="primary" size="lg">
+          <Button variant="primary" size="lg" onClick={this.props.fireOff}>
             <h2 className="fireButton">
               Shoot <i className="fas fa-crosshairs fa-lg" />
             </h2>

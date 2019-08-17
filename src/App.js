@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import GameBoard from "./GameBoard/GameBoard";
 import GameController from "./GameController/GameController";
-import {
-  secondColumn,
-  sixthColumn,
-  getInitialPixelValue
-} from "./Helper/Helper";
+import { getInitialPixelValue } from "./Helper/Helper";
 import { Card } from "react-bootstrap";
 import "./App.css";
 
@@ -21,7 +17,8 @@ class App extends Component {
       storeAllAlienPosition: {},
       currentPlanePosition: null,
       currrentPlaneDirection: null,
-      initialPlanePosition: null
+      initialPlanePosition: null,
+      fire: false
     };
     this.triggerStop = this.triggerStop.bind(this);
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
@@ -32,6 +29,7 @@ class App extends Component {
     this.getCurrentPlanePosition = this.getCurrentPlanePosition.bind(this);
     this.getCurrentPlaneDirection = this.getCurrentPlaneDirection.bind(this);
     this.getInitialPosition = this.getInitialPosition.bind(this);
+    this.fireOff = this.fireOff.bind(this);
   }
 
   render() {
@@ -53,7 +51,7 @@ class App extends Component {
         </div>
         <br />
         <Card>
-          <Card.Body>
+          <Card.Body style={{ padding: "0px" }}>
             <GameBoard
               maxSquare={this.state.maxSquare}
               noOfAliens={this.state.noOfAliens}
@@ -68,6 +66,7 @@ class App extends Component {
               getCurrentPlanePosition={this.getCurrentPlanePosition}
               getCurrentPlaneDirection={this.getCurrentPlaneDirection}
               getInitialPosition={this.getInitialPosition}
+              fire={this.state.fire}
             />
           </Card.Body>
           <Card.Footer>
@@ -75,11 +74,18 @@ class App extends Component {
               moveLeft={this.moveLeft}
               moveRight={this.moveRight}
               currentPlanePosition={this.state.currentPlanePosition}
+              fireOff={this.fireOff}
             />
           </Card.Footer>
         </Card>
       </div>
     );
+  }
+
+  fireOff() {
+    this.setState({
+      fire: true
+    });
   }
 
   updateAllAlienPosition(newPixelPosition, alienIndex, direction) {

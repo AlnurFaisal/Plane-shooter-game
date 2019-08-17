@@ -82,7 +82,11 @@ class GameBoard extends Component {
                     getInitialPosition={this.props.getInitialPosition}
                   />
                 ) : (
-                  <EmptySquare key={i} indexNum={element} />
+                  <EmptySquare
+                    key={i}
+                    indexNum={element}
+                    fire={this.props.fire}
+                  />
                 );
               }
             })}

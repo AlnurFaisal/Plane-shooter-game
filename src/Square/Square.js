@@ -15,7 +15,6 @@ class Square extends Component {
     this.alienStyle = {
       padding: "5px 5px",
       marginLeft: "47px",
-      width: "40px",
       height: "40px",
       WebkitTransition: "all .4s",
       MozTransition: "all .4s",
