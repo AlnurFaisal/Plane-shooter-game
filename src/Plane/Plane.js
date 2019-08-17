@@ -28,12 +28,12 @@ class Plane extends Component {
     this.handleNegativeValue = this.handleNegativeValue.bind(this);
   }
 
-  componentWillUpdate(prevProps) {
+  componentWillUpdate(nextProps) {
     console.log("Previous plane position: ", this.state.currentPosition);
     if (
-      this.props.currentPlanePosition !== prevProps.currentPlanePosition ||
-      this.props.currentPlaneDirection !== prevProps.currentPlaneDirection ||
-      this.props.initialPlanePosition !== prevProps.initialPlanePosition
+      this.props.currentPlanePosition !== nextProps.currentPlanePosition ||
+      this.props.currentPlaneDirection !== nextProps.currentPlaneDirection ||
+      this.props.initialPlanePosition !== nextProps.initialPlanePosition
     ) {
       this.setState(
         {

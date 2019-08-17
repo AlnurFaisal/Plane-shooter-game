@@ -86,6 +86,8 @@ class GameBoard extends Component {
                     key={i}
                     indexNum={element}
                     fire={this.props.fire}
+                    resetFire={this.props.resetFire}
+                    currentPlanePosition={this.props.currentPlanePosition}
                   />
                 );
               }

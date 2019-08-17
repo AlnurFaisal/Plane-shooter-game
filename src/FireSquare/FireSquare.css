@@ -3,3 +3,48 @@
     padding: 10px 10px;
     background: white;
 }
+
+/* Fifth Row indexes */
+.move_up_101{
+    -webkit-transform: translateY(101px);
+    -moz-transform: translateY(101px);
+    -ms-transform: translateY(101px);
+    -o-transform: translateY(101px);
+    transform: translateY(101px);
+}
+
+/* Forth Row indexes */
+.move_up_173{
+    -webkit-transform: translateY(173px);
+    -moz-transform: translateY(173px);
+    -ms-transform: translateY(173px);
+    -o-transform: translateY(173px);
+    transform: translateY(173px);
+}
+
+/* Third Row indexes */
+.move_up_245{
+    -webkit-transform: translateY(245px);
+    -moz-transform: translateY(245px);
+    -ms-transform: translateY(245px);
+    -o-transform: translateY(245px);
+    transform: translateY(245px); 
+}
+
+/* Second Row indexes */
+.move_up_317{
+    -webkit-transform: translateY(317px);
+    -moz-transform: translateY(317px);
+    -ms-transform: translateY(317px);
+    -o-transform: translateY(317px);
+    transform: translateY(317px);  
+}
+
+/* First Row indexes */
+.move_up_389{
+    -webkit-transform: translateY(389px);
+    -moz-transform: translateY(389px);
+    -ms-transform: translateY(389px);
+    -o-transform: translateY(389px);
+    transform: translateY(389px);
+}

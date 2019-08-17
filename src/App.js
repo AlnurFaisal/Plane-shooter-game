@@ -29,7 +29,6 @@ class App extends Component {
     this.getCurrentPlanePosition = this.getCurrentPlanePosition.bind(this);
     this.getCurrentPlaneDirection = this.getCurrentPlaneDirection.bind(this);
     this.getInitialPosition = this.getInitialPosition.bind(this);
-    this.fireOff = this.fireOff.bind(this);
   }
 
   render() {
@@ -67,6 +66,7 @@ class App extends Component {
               getCurrentPlaneDirection={this.getCurrentPlaneDirection}
               getInitialPosition={this.getInitialPosition}
               fire={this.state.fire}
+              resetFire={this.resetFire.bind(this)}
             />
           </Card.Body>
           <Card.Footer>
@@ -74,7 +74,7 @@ class App extends Component {
               moveLeft={this.moveLeft}
               moveRight={this.moveRight}
               currentPlanePosition={this.state.currentPlanePosition}
-              fireOff={this.fireOff}
+              fireOff={this.fireOff.bind(this)}
             />
           </Card.Footer>
         </Card>
@@ -85,6 +85,12 @@ class App extends Component {
   fireOff() {
     this.setState({
       fire: true
+    });
+  }
+
+  resetFire() {
+    this.setState({
+      fire: false
     });
   }
 
