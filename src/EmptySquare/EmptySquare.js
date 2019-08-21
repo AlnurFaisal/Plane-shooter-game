@@ -11,6 +11,8 @@ const EmptySquare = props => {
         indexNum={props.indexNum}
         resetFire={props.resetFire}
         planePosition={props.currentPlanePosition}
+        getAllAlienPosition={props.getAllAlienPosition}
+        destroyAliens={props.destroyAliens}
       />
     );
   } else {

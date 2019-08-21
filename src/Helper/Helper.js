@@ -56,10 +56,26 @@ const compare = (a, b) => {
   return comparison;
 };
 
-const findDuplicates = (a, b) => {
-  console.log("a: ", a);
-  console.log("b :", b);
+export const findDuplicatesFromList = (arr, value) => {
+  if (arr.includes(value)) {
+    return true;
+  }
+};
+
+export const findDuplicates = (a, b) => {
   return a === b;
+};
+
+export const filterArrayBasedOnRows = (filterValue, arr) => {
+  let val = null;
+  let filteredArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    val = checkWhichRow(parseInt(arr[i]));
+    if (val === filterValue) {
+      filteredArr.push(arr[i]);
+    }
+  }
+  return filteredArr;
 };
 
 const firstRow = [1, 2, 3, 4, 5, 6, 7];
@@ -97,7 +113,19 @@ export const checkEightCenter = index => {
   }
 };
 
-const checkWhichRow = element => {
+const rowRef = {
+  fifth: "101",
+  forth: "173",
+  third: "245",
+  second: "317",
+  first: "389"
+};
+
+export const getMoveValue = row => {
+  return rowRef[row];
+};
+
+export const checkWhichRow = element => {
   if (firstRow.includes(element)) {
     return "first";
   } else if (secondRow.includes(element)) {

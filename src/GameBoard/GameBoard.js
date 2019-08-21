@@ -24,7 +24,8 @@ class GameBoard extends Component {
       getDirections: randomizedDirection(props.playableRows),
       aliensDirection: {},
       removeDuplicateAliens: [],
-      currentItr: 0
+      currentItr: 0,
+      destroyedAliens: []
     };
     this.checkIndex = this.checkIndex.bind(this);
     this.setPlane = this.setPlane.bind(this);
@@ -64,6 +65,8 @@ class GameBoard extends Component {
                     stopMove={this.props.stopMove}
                     initialPixelPosition={getInitialPixelValue(element)}
                     updateAllAlienPosition={this.props.updateAllAlienPosition}
+                    destroyedAliens={this.state.destroyedAliens}
+                    getDestroyedAliens={this.getDestroyedAliens.bind(this)}
                   />
                 );
               } else {
@@ -88,6 +91,8 @@ class GameBoard extends Component {
                     fire={this.props.fire}
                     resetFire={this.props.resetFire}
                     currentPlanePosition={this.props.currentPlanePosition}
+                    getAllAlienPosition={this.props.getAllAlienPosition}
+                    destroyAliens={this.destroyAliens.bind(this)}
                   />
                 );
               }
@@ -96,6 +101,17 @@ class GameBoard extends Component {
         </div>
       </div>
     );
+  }
+
+  getDestroyedAliens() {
+    return this.state.destroyedAliens;
+  }
+
+  destroyAliens(aliens) {
+    const copyDestroyedAliens = [...this.state.destroyedAliens, ...aliens];
+    this.setState({
+      destroyedAliens: copyDestroyedAliens
+    });
   }
 
   checkIndex(index) {

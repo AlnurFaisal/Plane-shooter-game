@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { findDuplicatesFromList } from "../Helper/Helper";
 import * as $ from "jquery";
+import "jqueryui";
 import "./Square.css";
 import alien from "../img/001-alien.svg";
 
@@ -10,7 +12,8 @@ class Square extends Component {
       milliseconds: 2000,
       initialPixelPosition: props.initialPixelPosition,
       currentPixelPosition: null,
-      direction: props.direction
+      direction: props.direction,
+      destroyed: false
     };
     this.alienStyle = {
       padding: "5px 5px",
@@ -30,6 +33,22 @@ class Square extends Component {
     this.inverseDirection = this.inverseDirection.bind(this);
     this.checkExceedEdge = this.checkExceedEdge.bind(this);
     this.handleNegativeValue = this.handleNegativeValue.bind(this);
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.destroyedAliens !== nextProps.destroyedAliens) {
+      // check if this square host the aliens that needs to be destroyed, if so will trigger the explode effects
+      const copyDestroyedAliens = this.props.getDestroyedAliens();
+      const indexNum = this.props.indexNum;
+      const copyDestroyStatus = this.state.destroyed;
+      if (
+        findDuplicatesFromList(copyDestroyedAliens, indexNum) &&
+        copyDestroyStatus === false
+      ) {
+        $("#" + this.alien.current.id).toggle("explode");
+        // will need to remove alien element from "square" component
+      }
+    }
   }
 
   componentDidMount() {
@@ -54,11 +73,7 @@ class Square extends Component {
       $("#" + this.alien.current.id).addClass(
         this.setMovement(direction, truePixelMove, initialPixel)
       );
-      this.props.updateAllAlienPosition(
-        truePixelMove,
-        this.props.indexNum,
-        direction
-      );
+      this.props.updateAllAlienPosition(truePixelMove, this.props.indexNum);
       console.log(
         `initial pixel position for ${this.props.indexNum}: `,
         initialPixel
@@ -179,47 +194,43 @@ class Square extends Component {
   triggerMovement(initialPixel, currentPixel, stopMove) {
     // return the call to manageMovement if stopMove is still false
     // set the class and remove the unnecessary class after the 2 seconds iteration is complete
-    const pixelMove = this.calculatePixelPosition(
-      currentPixel,
-      this.state.direction
-    );
-    const pixelMoveNew = this.checkExceedEdge(
-      this.state.direction,
-      pixelMove,
-      this.alien.current.id
-    );
-    const direction = this.state.direction;
-    const truePixelMove =
-      pixelMoveNew !== undefined && pixelMoveNew !== null
-        ? pixelMoveNew
-        : pixelMove;
-    initialPixel = this.state.initialPixelPosition;
-    console.log(
-      `initial pixel position for ${this.props.indexNum}: `,
-      initialPixel
-    );
-    console.log(
-      `current pixel position for ${this.props.indexNum}: `,
-      currentPixel
-    );
-    console.log(
-      `next pixel position for ${this.props.indexNum}: `,
-      truePixelMove
-    );
-    $("#" + this.alien.current.id).removeClass();
-    $("#" + this.alien.current.id).addClass(
-      this.setMovement(direction, truePixelMove, initialPixel)
-    );
-    this.props.updateAllAlienPosition(
-      truePixelMove,
-      this.props.indexNum,
-      direction
-    );
-    this.setState({ currentPixelPosition: truePixelMove }, () => {
-      if (stopMove === false) {
+    if (stopMove === false) {
+      const pixelMove = this.calculatePixelPosition(
+        currentPixel,
+        this.state.direction
+      );
+      const pixelMoveNew = this.checkExceedEdge(
+        this.state.direction,
+        pixelMove,
+        this.alien.current.id
+      );
+      const direction = this.state.direction;
+      const truePixelMove =
+        pixelMoveNew !== undefined && pixelMoveNew !== null
+          ? pixelMoveNew
+          : pixelMove;
+      initialPixel = this.state.initialPixelPosition;
+      console.log(
+        `initial pixel position for ${this.props.indexNum}: `,
+        initialPixel
+      );
+      console.log(
+        `current pixel position for ${this.props.indexNum}: `,
+        currentPixel
+      );
+      console.log(
+        `next pixel position for ${this.props.indexNum}: `,
+        truePixelMove
+      );
+      $("#" + this.alien.current.id).removeClass();
+      $("#" + this.alien.current.id).addClass(
+        this.setMovement(direction, truePixelMove, initialPixel)
+      );
+      this.props.updateAllAlienPosition(truePixelMove, this.props.indexNum);
+      this.setState({ currentPixelPosition: truePixelMove }, () => {
         return this.manageMovement();
-      }
-    });
+      });
+    }
   }
 }
 

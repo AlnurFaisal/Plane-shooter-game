@@ -20,7 +20,6 @@ class App extends Component {
       initialPlanePosition: null,
       fire: false
     };
-    this.triggerStop = this.triggerStop.bind(this);
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
@@ -42,7 +41,6 @@ class App extends Component {
             <h1
               align="center"
               className="title_name"
-              onClick={this.triggerStop}
             >
               Space Wars
             </h1>
@@ -67,6 +65,7 @@ class App extends Component {
               getInitialPosition={this.getInitialPosition}
               fire={this.state.fire}
               resetFire={this.resetFire.bind(this)}
+              getAllAlienPosition={this.getAllAlienPosition.bind(this)}
             />
           </Card.Body>
           <Card.Footer>
@@ -75,6 +74,7 @@ class App extends Component {
               moveRight={this.moveRight}
               currentPlanePosition={this.state.currentPlanePosition}
               fireOff={this.fireOff.bind(this)}
+              triggerStop={this.triggerStop.bind(this)}
             />
           </Card.Footer>
         </Card>
@@ -94,7 +94,11 @@ class App extends Component {
     });
   }
 
-  updateAllAlienPosition(newPixelPosition, alienIndex, direction) {
+  getAllAlienPosition() {
+    return this.state.storeAllAlienPosition;
+  }
+
+  updateAllAlienPosition(newPixelPosition, alienIndex) {
     let copyAllAlienPosition = Object.assign(
       {},
       this.state.storeAllAlienPosition

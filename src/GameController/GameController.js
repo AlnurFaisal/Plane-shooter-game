@@ -8,8 +8,9 @@ class GameController extends Component {
   constructor() {
     super();
     this.state = {
-      milliseconds: 10000
+      milliseconds: 5000
     };
+    this.doShoot = this.doShoot.bind(this);
   }
 
   render() {
@@ -21,7 +22,7 @@ class GameController extends Component {
           </h2>
         </div>
         <div className="col-md-4" align="center">
-          <Button variant="primary" size="lg" onClick={this.props.fireOff}>
+          <Button variant="primary" size="lg" onClick={this.doShoot}>
             <h2 className="fireButton">
               Shoot <i className="fas fa-crosshairs fa-lg" />
             </h2>
@@ -45,6 +46,15 @@ class GameController extends Component {
         </div>
       </div>
     );
+  }
+
+  doShoot() {
+    this.props.triggerStop();
+    this.props.fireOff();
+    /* setTimeout(() => {
+      // un-freeze the aliens and reset the fire value after the movement has been executed
+
+    }, 6000); */
   }
 
   movement(retry, event) {
