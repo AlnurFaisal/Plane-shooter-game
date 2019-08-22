@@ -52,7 +52,7 @@ class GameController extends Component {
     this.props.triggerStop();
     this.props.fireOff();
     /* setTimeout(() => {
-      // un-freeze the aliens and reset the fire value after the movement has been executed
+      // un-freeze the aliens after the aliens has been destroyed
 
     }, 6000); */
   }

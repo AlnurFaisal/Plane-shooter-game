@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { findDuplicatesFromList } from "../Helper/Helper";
 import * as $ from "jquery";
-import "jqueryui";
 import "./Square.css";
-import alien from "../img/001-alien.svg";
+import alien from "../img/space-ship.png";
 
 class Square extends Component {
   constructor(props) {
@@ -37,16 +36,20 @@ class Square extends Component {
 
   componentWillUpdate(nextProps) {
     if (this.props.destroyedAliens !== nextProps.destroyedAliens) {
+      console.log("Trigerring the aliens to explode: ", true);
       // check if this square host the aliens that needs to be destroyed, if so will trigger the explode effects
       const copyDestroyedAliens = this.props.getDestroyedAliens();
+      console.log("Aliens to be destroyed: ", copyDestroyedAliens);
       const indexNum = this.props.indexNum;
+      console.log("indexNum value for the square: ", indexNum);
       const copyDestroyStatus = this.state.destroyed;
       if (
         findDuplicatesFromList(copyDestroyedAliens, indexNum) &&
         copyDestroyStatus === false
       ) {
-        $("#" + this.alien.current.id).toggle("explode");
-        // will need to remove alien element from "square" component
+        $("#" + this.alien.current.id).fadeOut(100);
+        /* will need to set the destroyed state to true and this value will then
+           trigger when updating position to the set "truePixelMove" to false */
       }
     }
   }

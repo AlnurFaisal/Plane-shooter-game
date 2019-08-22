@@ -57,7 +57,8 @@ const compare = (a, b) => {
 };
 
 export const findDuplicatesFromList = (arr, value) => {
-  if (arr.includes(value)) {
+  if (arr.includes(value.toString())) {
+    console.log("This is a match!");
     return true;
   }
 };

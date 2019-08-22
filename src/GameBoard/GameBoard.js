@@ -108,7 +108,8 @@ class GameBoard extends Component {
   }
 
   destroyAliens(aliens) {
-    const copyDestroyedAliens = [...this.state.destroyedAliens, ...aliens];
+    const copyDestroyedAliens = [...aliens];
+    console.log("Destroyed Aliens: ", copyDestroyedAliens);
     this.setState({
       destroyedAliens: copyDestroyedAliens
     });

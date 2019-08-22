@@ -3,6 +3,7 @@ import GameBoard from "./GameBoard/GameBoard";
 import GameController from "./GameController/GameController";
 import { getInitialPixelValue } from "./Helper/Helper";
 import { Card } from "react-bootstrap";
+import * as $ from "jquery";
 import "./App.css";
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
       initialPlanePosition: null,
       fire: false
     };
+    this.title = React.createRef();
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
@@ -28,6 +30,7 @@ class App extends Component {
     this.getCurrentPlanePosition = this.getCurrentPlanePosition.bind(this);
     this.getCurrentPlaneDirection = this.getCurrentPlaneDirection.bind(this);
     this.getInitialPosition = this.getInitialPosition.bind(this);
+    this.triggerExplode = this.triggerExplode.bind(this);
   }
 
   render() {
@@ -39,8 +42,11 @@ class App extends Component {
         <div className="row">
           <div className="col-md-12">
             <h1
+              id={"test"}
               align="center"
               className="title_name"
+              onClick={this.triggerExplode}
+              ref={this.title}
             >
               Space Wars
             </h1>
@@ -80,6 +86,10 @@ class App extends Component {
         </Card>
       </div>
     );
+  }
+
+  triggerExplode() {
+    $("#" + this.title.current.id).fadeOut("slow");
   }
 
   fireOff() {
