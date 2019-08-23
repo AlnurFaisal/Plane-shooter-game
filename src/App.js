@@ -80,7 +80,7 @@ class App extends Component {
               moveRight={this.moveRight}
               currentPlanePosition={this.state.currentPlanePosition}
               fireOff={this.fireOff.bind(this)}
-              triggerStop={this.triggerStop.bind(this)}
+              toggleStop={this.toggleStop.bind(this)}
             />
           </Card.Footer>
         </Card>
@@ -189,9 +189,9 @@ class App extends Component {
     }
   }
 
-  triggerStop() {
+  toggleStop() {
     this.setState({
-      stopMove: true
+      stopMove: !this.state.stopMove
     });
   }
 }

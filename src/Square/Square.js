@@ -50,7 +50,19 @@ class Square extends Component {
         $("#" + this.alien.current.id).fadeOut(100);
         /* will need to set the destroyed state to true and this value will then
            trigger when updating position to the set "truePixelMove" to false */
+        this.setState({
+          destroyed: true
+        });
       }
+    } else if (
+      this.props.stopMove !== nextProps.stopMove &&
+      nextProps.stopMove === false
+    ) {
+      this.triggerMovement(
+        this.state.initialPixelPosition,
+        this.state.currentPixelPosition,
+        false
+      );
     }
   }
 
@@ -128,10 +140,12 @@ class Square extends Component {
 
   setMovement(direction, nextPixel, initialPixel) {
     let value = null;
-    if (direction === "left") {
-      value = initialPixel - nextPixel;
-    } else {
+    if (nextPixel === false) {
+      return "no_move";
+    } else if (direction === "right") {
       value = nextPixel - initialPixel;
+    } else if (direction === "left") {
+      value = initialPixel - nextPixel;
     }
     let obj =
       value < 0
@@ -208,10 +222,13 @@ class Square extends Component {
         this.alien.current.id
       );
       const direction = this.state.direction;
-      const truePixelMove =
+      let truePixelMove =
         pixelMoveNew !== undefined && pixelMoveNew !== null
           ? pixelMoveNew
           : pixelMove;
+      if (this.state.destroyed === true) {
+        truePixelMove = false;
+      }
       initialPixel = this.state.initialPixelPosition;
       console.log(
         `initial pixel position for ${this.props.indexNum}: `,

@@ -4,6 +4,14 @@
     background: white;
 }
 
+.no_move{
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+}
+
 .move_left_158{
     -webkit-transform: translateX(-158px);
     -moz-transform: translateX(-158px);
