@@ -35,10 +35,11 @@ class Square extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.destroyedAliens !== nextProps.destroyedAliens) {
+    // check if this square host the aliens that needs to be destroyed, if so will trigger the explode effects
+    const copyDestroyedAliens = this.props.getDestroyedAliens();
+    // check and ensure alien list that is passed in is not empty, if so will not trigger the effects
+    if (this.props.destroyedAliens !== nextProps.destroyedAliens && copyDestroyedAliens.length > 0) {
       console.log("Trigerring the aliens to explode: ", true);
-      // check if this square host the aliens that needs to be destroyed, if so will trigger the explode effects
-      const copyDestroyedAliens = this.props.getDestroyedAliens();
       console.log("Aliens to be destroyed: ", copyDestroyedAliens);
       const indexNum = this.props.indexNum;
       console.log("indexNum value for the square: ", indexNum);

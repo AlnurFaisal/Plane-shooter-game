@@ -65,6 +65,7 @@ class FireSquare extends Component {
   doPrepLaser() {
     // firstly will need to check which alien enemy will the laser hit first
     // read all the position of the alien enemy and determine which ones currently are in the same column as the plane
+    // handle "alienList" scenerio where they are empty
     const copyAllAlienPosition = this.props.getAllAlienPosition();
     const copyPlanePosition = this.props.planePosition;
     let alienList = [];
@@ -78,13 +79,17 @@ class FireSquare extends Component {
     }
     console.log("alienList: ", alienList);
     // reverse sort the alien list and take the largest index value
-    alienList = alienList.reverse();
+    alienList = alienList.length > 0 ? alienList.reverse() : [];
     console.log("Desc alienList: ", alienList);
     /* filter the list further to see there are any more aliens that belong to the same row as the
        largest index and remove those that are not of the same row
     */
-    const largestIndexRow = checkWhichRow(parseInt(alienList[0]));
-    const destroyAlienList = filterArrayBasedOnRows(largestIndexRow, alienList);
+    const largestIndexRow =
+      alienList.length > 0 ? checkWhichRow(parseInt(alienList[0])) : null;
+    const destroyAlienList =
+      alienList.length > 0
+        ? filterArrayBasedOnRows(largestIndexRow, alienList)
+        : [];
     console.log("obj: ", { largestIndexRow, destroyAlienList });
 
     return { largestIndexRow, destroyAlienList };
@@ -93,13 +98,22 @@ class FireSquare extends Component {
   handleMovement(row) {
     /* Trigger the laser to move and stop at the correct square vertically using the row
        value then explode and hide the aliens using its indexNum value. */
-    const move = getMoveValue(row);
-    console.log("getMoveValue: ", move);
-    $("#" + this.laser.current.id).removeClass();
-    $("#" + this.laser.current.id).css("display", "inline");
-    setTimeout(() => {
-      $("#" + this.laser.current.id).addClass(`move_up_${move}`);
-    }, this.state.milliseconds);
+    // when row is empty will move the laser all the way to the top row of the "GameBoard"
+    if (row === null) {
+      $("#" + this.laser.current.id).removeClass();
+      $("#" + this.laser.current.id).css("display", "inline");
+      setTimeout(() => {
+        $("#" + this.laser.current.id).addClass("move_all_up");
+      }, this.state.milliseconds);
+    } else {
+      const move = getMoveValue(row);
+      console.log("getMoveValue: ", move);
+      $("#" + this.laser.current.id).removeClass();
+      $("#" + this.laser.current.id).css("display", "inline");
+      setTimeout(() => {
+        $("#" + this.laser.current.id).addClass(`move_up_${move}`);
+      }, this.state.milliseconds);
+    }
   }
 
   render() {

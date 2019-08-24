@@ -31,6 +31,7 @@ class App extends Component {
     this.getCurrentPlaneDirection = this.getCurrentPlaneDirection.bind(this);
     this.getInitialPosition = this.getInitialPosition.bind(this);
     this.triggerExplode = this.triggerExplode.bind(this);
+    this.toggleStop = this.toggleStop.bind(this);
   }
 
   render() {
@@ -45,7 +46,7 @@ class App extends Component {
               id={"test"}
               align="center"
               className="title_name"
-              onClick={this.triggerExplode}
+              onClick={this.toggleStop}
               ref={this.title}
             >
               Space Wars
@@ -80,7 +81,7 @@ class App extends Component {
               moveRight={this.moveRight}
               currentPlanePosition={this.state.currentPlanePosition}
               fireOff={this.fireOff.bind(this)}
-              toggleStop={this.toggleStop.bind(this)}
+              toggleStop={this.toggleStop}
             />
           </Card.Footer>
         </Card>
@@ -114,9 +115,14 @@ class App extends Component {
       this.state.storeAllAlienPosition
     );
     copyAllAlienPosition[alienIndex] = newPixelPosition;
-    this.setState({
-      storeAllAlienPosition: copyAllAlienPosition
-    });
+    this.setState(
+      {
+        storeAllAlienPosition: copyAllAlienPosition
+      },
+      () => {
+        return;
+      }
+    );
   }
 
   getCurrentPlanePosition() {

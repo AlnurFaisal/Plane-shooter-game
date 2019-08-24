@@ -48,3 +48,11 @@
     -o-transform: translateY(-389px);
     transform: translateY(-389px);
 }
+
+.move_all_up{
+    -webkit-transform: translateY(-400px);
+    -moz-transform: translateY(-400px);
+    -ms-transform: translateY(-400px);
+    -o-transform: translateY(-400px);
+    transform: translateY(-400px);  
+}
