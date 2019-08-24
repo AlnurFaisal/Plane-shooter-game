@@ -46,7 +46,7 @@ class App extends Component {
               id={"test"}
               align="center"
               className="title_name"
-              onClick={this.toggleStop}
+              onClick={this.triggerExplode}
               ref={this.title}
             >
               Space Wars
