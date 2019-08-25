@@ -63,6 +63,29 @@ export const findDuplicatesFromList = (arr, value) => {
   }
 };
 
+export const calculatePoints = alienList => {
+  let points = null;
+  const noOfAliens = alienList.length;
+  switch (noOfAliens) {
+    case 1:
+      points = 5;
+      break;
+    case 2:
+      points = 10;
+      break;
+    case 3:
+      points = 15;
+      break;
+    case 4:
+      points = 20;
+      break;
+    default:
+      points = 0;
+  }
+  console.log("calculated points: ", points);
+  return points;
+};
+
 export const findDuplicates = (a, b) => {
   return a === b;
 };

@@ -22,3 +22,9 @@
     font-weight: 700;
     color: green;
 }
+
+.show_score {
+    font-weight: 700;
+    color: purple;
+    font-size: 28px !important;
+}

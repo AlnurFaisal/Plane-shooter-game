@@ -19,9 +19,9 @@ class App extends Component {
       currentPlanePosition: null,
       currrentPlaneDirection: null,
       initialPlanePosition: null,
-      fire: false
+      fire: false,
+      points: 0
     };
-    this.title = React.createRef();
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
     this.moveRight = this.moveRight.bind(this);
@@ -47,7 +47,6 @@ class App extends Component {
               align="center"
               className="title_name"
               onClick={this.triggerExplode}
-              ref={this.title}
             >
               Space Wars
             </h1>
@@ -73,6 +72,7 @@ class App extends Component {
               fire={this.state.fire}
               resetFire={this.resetFire.bind(this)}
               getAllAlienPosition={this.getAllAlienPosition.bind(this)}
+              updatePoints={this.updatePoints.bind(this)}
             />
           </Card.Body>
           <Card.Footer>
@@ -82,6 +82,7 @@ class App extends Component {
               currentPlanePosition={this.state.currentPlanePosition}
               fireOff={this.fireOff.bind(this)}
               toggleStop={this.toggleStop}
+              getPoints={this.state.points}
             />
           </Card.Footer>
         </Card>
@@ -90,7 +91,7 @@ class App extends Component {
   }
 
   triggerExplode() {
-    $("#" + this.title.current.id).fadeOut("slow");
+    $("#test").fadeOut("slow");
   }
 
   fireOff() {
@@ -102,6 +103,14 @@ class App extends Component {
   resetFire() {
     this.setState({
       fire: false
+    });
+  }
+
+  updatePoints(addPoints) {
+    let copyCurrentPoints = this.state.points;
+    copyCurrentPoints = copyCurrentPoints + addPoints;
+    this.setState({
+      points: copyCurrentPoints
     });
   }
 

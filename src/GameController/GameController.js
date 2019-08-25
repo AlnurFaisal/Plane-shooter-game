@@ -32,13 +32,13 @@ class GameController extends Component {
               label={`${this.state.percent}%`}
             />
           </div>
-          <br />
-          <br />
         </div>
+        <br />
+        <br />
         <div className="row">
           <div className="col-md-4">
             <h2 className="scores">
-              Score: <span />
+              Score: <span className="show_score" id="myScore" />
             </h2>
           </div>
           <div className="col-md-4" align="center">
@@ -50,7 +50,7 @@ class GameController extends Component {
               disabled={this.state.disabled}
             >
               <h2 className="fireButton">
-                Shoot <i className="fas fa-crosshairs fa-lg" />
+                Fire <i className="fas fa-crosshairs fa-lg" />
               </h2>
             </Button>
           </div>
@@ -73,6 +73,13 @@ class GameController extends Component {
         </div>
       </div>
     );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.getPoints !== nextProps.getPoints) {
+      console.log("Updated Score: ", nextProps.getPoints);
+      $("#myScore").text(`${nextProps.getPoints}`);
+    }
   }
 
   doShoot() {

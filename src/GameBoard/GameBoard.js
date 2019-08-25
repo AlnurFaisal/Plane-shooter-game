@@ -11,7 +11,8 @@ import {
   assignDirection,
   getInitialPixelValue,
   checkSameRow,
-  checkEightCenter
+  checkEightCenter,
+  calculatePoints
 } from "../Helper/Helper";
 import "./GameBoard.css";
 
@@ -25,7 +26,8 @@ class GameBoard extends Component {
       aliensDirection: {},
       removeDuplicateAliens: [],
       currentItr: 0,
-      destroyedAliens: []
+      destroyedAliens: [],
+      prevAliens: null
     };
     this.checkIndex = this.checkIndex.bind(this);
     this.setPlane = this.setPlane.bind(this);
@@ -108,11 +110,15 @@ class GameBoard extends Component {
   }
 
   destroyAliens(aliens) {
-    const copyDestroyedAliens = [...aliens];
-    console.log("Destroyed Aliens: ", copyDestroyedAliens);
-    this.setState({
-      destroyedAliens: copyDestroyedAliens
-    });
+    if (aliens[0] !== this.state.prevAliens) {
+      console.log("Destroyed Aliens: ", aliens);
+      const copyPoints = calculatePoints(aliens);
+      this.props.updatePoints(copyPoints);
+      this.setState({
+        destroyedAliens: aliens,
+        prevAliens: aliens[0]
+      });
+    }
   }
 
   checkIndex(index) {
