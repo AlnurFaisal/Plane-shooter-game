@@ -69,6 +69,7 @@ class GameBoard extends Component {
                     updateAllAlienPosition={this.props.updateAllAlienPosition}
                     destroyedAliens={this.state.destroyedAliens}
                     getDestroyedAliens={this.getDestroyedAliens.bind(this)}
+                    completed={this.props.completed}
                   />
                 );
               } else {

@@ -62,8 +62,9 @@ class Plane extends Component {
   componentWillMount() {
     if (this.state.counter === 0) {
       this.props.getInitialPlanePosition(this.props.indexNum);
+      let counter = this.state.counter;
       this.setState({
-        counter: (this.state.counter += 1)
+        counter: (counter += 1)
       });
     }
   }
@@ -89,8 +90,7 @@ class Plane extends Component {
   handleNegativeValue(value, direction) {
     value = value * -1;
     direction = this.inverseDirection(direction);
-    const obj = { value: value, direction: direction };
-    return obj;
+    return { value: value, direction: direction };
   }
 
   setMovement(direction, nextPixel, initialPixel) {

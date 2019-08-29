@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import GameBoard from "./GameBoard/GameBoard";
 import GameController from "./GameController/GameController";
-import { getInitialPixelValue } from "./Helper/Helper";
+import { getInitialPixelValue, checkAllFalse } from "./Helper/Helper";
+import Popup from "./Popup/Popup";
 import { Card } from "react-bootstrap";
 import * as $ from "jquery";
 import "./App.css";
@@ -20,7 +21,8 @@ class App extends Component {
       currrentPlaneDirection: null,
       initialPlanePosition: null,
       fire: false,
-      points: 0
+      points: 0,
+      completed: false
     };
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
@@ -37,7 +39,8 @@ class App extends Component {
   render() {
     console.log("maxSquare: ", this.state.maxSquare);
     console.log("All Alien Position: ", this.state.storeAllAlienPosition);
-
+    const popupSubject = this.state.completed ? "complete" : "begin";
+    const toggleShow = this.state.completed;
     return (
       <div className="container">
         <div className="row">
@@ -73,6 +76,7 @@ class App extends Component {
               resetFire={this.resetFire.bind(this)}
               getAllAlienPosition={this.getAllAlienPosition.bind(this)}
               updatePoints={this.updatePoints.bind(this)}
+              completed={this.state.completed}
             />
           </Card.Body>
           <Card.Footer>
@@ -86,8 +90,15 @@ class App extends Component {
             />
           </Card.Footer>
         </Card>
+        <Popup popup={popupSubject} show={toggleShow} handleClick={this.handleClick.bind(this)}/>
       </div>
     );
+  }
+
+  handleClick() {
+    this.setState({
+      completed: false
+    });
   }
 
   triggerExplode() {
@@ -124,8 +135,13 @@ class App extends Component {
       this.state.storeAllAlienPosition
     );
     copyAllAlienPosition[alienIndex] = newPixelPosition;
+    /* before setting state check if all the alien position set is set to false
+       if so, will update the state with the status completed set to true which
+       will trigger a popup to appear */
+    const completed = checkAllFalse(copyAllAlienPosition);
     this.setState(
       {
+        completed: completed,
         storeAllAlienPosition: copyAllAlienPosition
       },
       () => {

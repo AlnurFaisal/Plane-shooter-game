@@ -86,6 +86,18 @@ export const calculatePoints = alienList => {
   return points;
 };
 
+export const checkAllFalse = alienPositions => {
+  for (let i in alienPositions) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (alienPositions.hasOwnProperty(i)) {
+      if (findDuplicates(alienPositions[i], false) === false) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
 export const findDuplicates = (a, b) => {
   return a === b;
 };

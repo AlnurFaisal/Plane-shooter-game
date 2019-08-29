@@ -38,7 +38,10 @@ class Square extends Component {
     // check if this square host the aliens that needs to be destroyed, if so will trigger the explode effects
     const copyDestroyedAliens = this.props.getDestroyedAliens();
     // check and ensure alien list that is passed in is not empty, if so will not trigger the effects
-    if (this.props.destroyedAliens !== nextProps.destroyedAliens && copyDestroyedAliens.length > 0) {
+    if (
+      this.props.destroyedAliens !== nextProps.destroyedAliens &&
+      copyDestroyedAliens.length > 0
+    ) {
       console.log("Trigerring the aliens to explode: ", true);
       console.log("Aliens to be destroyed: ", copyDestroyedAliens);
       const indexNum = this.props.indexNum;
@@ -135,8 +138,7 @@ class Square extends Component {
   handleNegativeValue(value, direction) {
     value = value * -1;
     direction = this.inverseDirection(direction);
-    const obj = { value: value, direction: direction };
-    return obj;
+    return { value: value, direction: direction };
   }
 
   setMovement(direction, nextPixel, initialPixel) {
@@ -248,9 +250,12 @@ class Square extends Component {
         this.setMovement(direction, truePixelMove, initialPixel)
       );
       this.props.updateAllAlienPosition(truePixelMove, this.props.indexNum);
-      this.setState({ currentPixelPosition: truePixelMove }, () => {
-        return this.manageMovement();
-      });
+      // will need to check if all aliens are already destroyed if so will not continue the command below
+      if (this.props.completed === false) {
+        this.setState({ currentPixelPosition: truePixelMove }, () => {
+          return this.manageMovement();
+        });
+      }
     }
   }
 }
