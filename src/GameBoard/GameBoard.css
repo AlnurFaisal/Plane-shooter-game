@@ -1,6 +1,10 @@
 .css-grid-container {
-    background: rgba(0, 0, 0, 0.3);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    border: solid 1px rgba(0, 0, 0, 0.6);
+    background-image: url("../img/space_3.jpg");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: 100%;
+    border: 1px solid;
+    outline: 1px black solid;
 }

@@ -25,6 +25,13 @@
 
 .show_score {
     font-weight: 700;
-    color: purple;
+    color:yellow;
     font-size: 28px !important;
+}
+
+.cockpit {
+    background-image: url("../img/spaceship_controller.jpeg");
+    background-position: top; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
 }

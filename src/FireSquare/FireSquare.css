@@ -1,7 +1,6 @@
 .square_fire{
-    border: solid 1px black;
     padding: 10px 10px 0px 10px;
-    background: white;
+    background: transparent;
 }
 
 /* Fifth Row indexes */
@@ -50,9 +49,9 @@
 }
 
 .move_all_up{
-    -webkit-transform: translateY(-400px);
-    -moz-transform: translateY(-400px);
-    -ms-transform: translateY(-400px);
-    -o-transform: translateY(-400px);
-    transform: translateY(-400px);  
+    -webkit-transform: translateY(-388px);
+    -moz-transform: translateY(-388px);
+    -ms-transform: translateY(-388px);
+    -o-transform: translateY(-388px);
+    transform: translateY(-388px);  
 }

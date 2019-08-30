@@ -23,8 +23,11 @@ const Popup = props => {
         <ModalBody>
           <div className="row">
             <div className="col-md-12">
-              <p className="h4" align="center">
-                Congratulations! You have completed the game. <br />
+              <p className="h3" align="center">
+                Congratulations!
+                <br />
+                You have completed the game.
+                <br />
                 <br />
               </p>
             </div>
@@ -42,9 +45,9 @@ const Popup = props => {
             </div>
             <br />
             <br />
-            <div className="offset-md-8 col-md-4">
+            <div className="offset-md-7 col-md-5">
               <Button variant="primary" size="lg">
-                Retry
+                Retry Game
               </Button>
               <Button
                 variant="danger"
@@ -52,7 +55,7 @@ const Popup = props => {
                 onClick={props.handleClick}
                 style={{ marginLeft: "5px" }}
               >
-                Exit
+                Exit Game
               </Button>
             </div>
           </div>

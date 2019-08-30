@@ -18,10 +18,10 @@ class GameController extends Component {
 
   render() {
     return (
-      <div>
+      <div className="cockpit">
         <div className="row">
           <div className="col-md-12">
-            <p className="lead" style={{ fontWeight: 900 }} align="center">
+            <p className="lead" style={{ fontWeight: 900, color: "white", fontSize: 25 }} align="center">
               Laser Meter
             </p>
           </div>

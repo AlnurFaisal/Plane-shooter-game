@@ -1,6 +1,13 @@
 .title_name {
   font-weight: 900;
-  font-size: 55px;
+  font-size: 75px;
   line-height: 1.2;
   cursor: pointer;
+}
+
+body {
+    background-image: url("../src/img/spaceship_interior_2.jpg");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
 }

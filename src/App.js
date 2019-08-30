@@ -79,7 +79,13 @@ class App extends Component {
               completed={this.state.completed}
             />
           </Card.Body>
-          <Card.Footer>
+          <Card.Footer
+            style={{
+              backgroundColor: "black",
+              outline: "1px black solid",
+              border: "1px solid"
+            }}
+          >
             <GameController
               moveLeft={this.moveLeft}
               moveRight={this.moveRight}
@@ -90,7 +96,11 @@ class App extends Component {
             />
           </Card.Footer>
         </Card>
-        <Popup popup={popupSubject} show={toggleShow} handleClick={this.handleClick.bind(this)}/>
+        <Popup
+          popup={popupSubject}
+          show={toggleShow}
+          handleClick={this.handleClick.bind(this)}
+        />
       </div>
     );
   }

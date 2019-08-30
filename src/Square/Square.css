@@ -1,7 +1,6 @@
 .square1{
-    border: solid 1px black;
     padding: 15px 15px;
-    background: white;
+    background: transparent;
 }
 
 .no_move{
