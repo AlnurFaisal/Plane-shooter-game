@@ -6,8 +6,9 @@
 }
 
 body {
-    background-image: url("../src/img/spaceship_interior_2.jpg");
+    background-image: url("./img/spaceship_interior_2.jpg");
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover;
-}
+    background-position-y: inherit;
+  }

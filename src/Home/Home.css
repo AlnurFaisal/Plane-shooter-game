@@ -1,0 +1,13 @@
+.headline {
+  font-weight: 900;
+  line-height: 1.2;
+  font-size: 75px;
+}
+
+body {
+  background-image: url("../img/spaceship_interior_2.jpg");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+  background-position-y: inherit;
+}
