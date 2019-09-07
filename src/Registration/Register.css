@@ -1,0 +1,28 @@
+.title_name_reg {
+    font-weight: 900;
+    line-height: 1.2;
+    font-size: 75px;
+}
+
+.player_info {
+    font-weight: 700;
+}
+
+.line_hr {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-width: 3px;
+    border-color: black;
+}
+
+.form_title {
+    font-size: 20px; 
+}
+
+.span_options {
+    font-size: 18px;
+    vertical-align: sub;
+}

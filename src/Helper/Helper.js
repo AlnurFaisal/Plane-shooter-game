@@ -86,6 +86,22 @@ export const calculatePoints = alienList => {
   return points;
 };
 
+export const checkDifficulty = option => {
+  let objOptions = null;
+  switch (option) {
+    case "easy":
+      objOptions = { easy: true, moderate: false, hard: false };
+      break;
+    case "moderate":
+      objOptions = { easy: false, moderate: true, hard: false };
+      break;
+    case "hard":
+      objOptions = { easy: false, moderate: false, hard: true };
+      break;
+  }
+  return objOptions;
+};
+
 export const checkAllFalse = alienPositions => {
   for (let i in alienPositions) {
     // eslint-disable-next-line no-prototype-builtins
