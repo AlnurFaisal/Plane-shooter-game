@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import GameBoard from "./GameBoard/GameBoard";
 import GameController from "./GameController/GameController";
-import { getInitialPixelValue, checkAllFalse } from "./Helper/Helper";
+import {
+  getInitialPixelValue,
+  checkAllFalse,
+  setMaxTime
+} from "./Helper/Helper";
 import Popup from "./Popup/Popup";
 import { Card } from "react-bootstrap";
 import * as $ from "jquery";
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       maxSquare: 56,
       noOfAliens: 15,
@@ -22,7 +26,9 @@ class App extends Component {
       initialPlanePosition: null,
       fire: false,
       points: 0,
-      completed: false
+      completed: false,
+      begin: true,
+      maxTimeout: setMaxTime(props.difficulty)
     };
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
@@ -36,11 +42,33 @@ class App extends Component {
     this.toggleStop = this.toggleStop.bind(this);
   }
 
+  componentDidMount() {
+    if (this.state.begin === true) {
+      let counter = 4;
+      let endTime = new Date();
+      endTime.setSeconds(endTime.getSeconds() + 3);
+      endTime = endTime.getTime();
+
+      const countTimer = setInterval(() => {
+        let now = new Date().getTime();
+        let difference = endTime - now;
+        $("#countDown").text(counter);
+        counter--;
+        if (difference < 0) {
+          this.setState({
+            begin: false
+          });
+          clearInterval(countTimer);
+        }
+      }, 1000);
+    }
+  }
+
   render() {
     console.log("maxSquare: ", this.state.maxSquare);
     console.log("All Alien Position: ", this.state.storeAllAlienPosition);
     const popupSubject = this.state.completed ? "complete" : "begin";
-    const toggleShow = this.state.completed;
+    const toggleShow = this.state.completed || this.state.begin;
     return (
       <div className="container">
         <div className="row">
@@ -77,6 +105,7 @@ class App extends Component {
               getAllAlienPosition={this.getAllAlienPosition.bind(this)}
               updatePoints={this.updatePoints.bind(this)}
               completed={this.state.completed}
+              maxTimeout={this.state.maxTimeout}
             />
           </Card.Body>
           <Card.Footer
@@ -93,6 +122,9 @@ class App extends Component {
               fireOff={this.fireOff.bind(this)}
               toggleStop={this.toggleStop}
               getPoints={this.state.points}
+              playerName={this.props.playerName}
+              difficulty={this.props.difficulty}
+              maxTimeout={this.state.maxTimeout}
             />
           </Card.Footer>
         </Card>
@@ -100,6 +132,9 @@ class App extends Component {
           popup={popupSubject}
           show={toggleShow}
           handleClick={this.handleClick.bind(this)}
+          playerName={this.props.playerName}
+          difficulty={this.props.difficulty}
+          players={this.props.players}
         />
       </div>
     );
@@ -138,6 +173,13 @@ class App extends Component {
   getAllAlienPosition() {
     return this.state.storeAllAlienPosition;
   }
+
+  /* create a method below to countdown using maxTimeout before trigerring the popup without
+     caring whether user finish destroying the aliens and set the state to completed. */
+
+  /* Create a method to be called in componentWillMount to check if the popup for
+     the begin has been hidden which will trigger some state change. Will then trigger the countdown
+     clock to rundown the time. Pass this method in the GameController */
 
   updateAllAlienPosition(newPixelPosition, alienIndex) {
     let copyAllAlienPosition = Object.assign(

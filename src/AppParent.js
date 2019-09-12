@@ -19,7 +19,7 @@ class AppParent extends Component {
   componentWillMount() {
     let copySnapshot = null;
     const getDb = Database.ref("players");
-    getDb.once("value", snapshot => {
+    getDb.on("value", snapshot => {
       console.log("snapshot: ", snapshot);
       snapshot.forEach(childSnapshot => {
         console.log("childSnapshot_key: ", childSnapshot.val());

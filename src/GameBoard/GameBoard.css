@@ -4,7 +4,7 @@
     background-image: url("../img/space_3.jpg");
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: 100%;
+    background-size: cover;
     border: 1px solid;
     outline: 1px black solid;
 }

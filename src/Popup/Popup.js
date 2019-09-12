@@ -4,6 +4,8 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import ModalBody from "react-bootstrap/ModalBody";
 import Button from "react-bootstrap/Button";
+import MDSpinner from "react-md-spinner";
+import "./Popup.css";
 
 const Popup = props => {
   if (props.popup === "complete") {
@@ -72,12 +74,14 @@ const Popup = props => {
         centered
       >
         <ModalHeader>
-          <ModalTitle id="modal_begin">Begin Game</ModalTitle>
+          <ModalTitle id="modal_begin" style={{ fontWeight: 900 }}>
+            Begin Game
+          </ModalTitle>
         </ModalHeader>
         <ModalBody>
-          <p className="lead">Some Text</p>
-          <br />
-          <br />
+          <p id="countDown" align="center">
+            <MDSpinner size={75} duration={1200} />
+          </p>
         </ModalBody>
       </Modal>
     );

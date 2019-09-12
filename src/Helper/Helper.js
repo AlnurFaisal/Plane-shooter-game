@@ -63,6 +63,22 @@ export const findDuplicatesFromList = (arr, value) => {
   }
 };
 
+const difficultyLevel = {
+  easy: 3.5,
+  moderate: 3,
+  hard: 2.5
+};
+
+export const setMaxTime = difficulty => {
+  if (difficulty.easy) {
+    return difficultyLevel.easy;
+  } else if (difficulty.moderate) {
+    return difficultyLevel.moderate;
+  } else if (difficulty.hard) {
+    return difficultyLevel.hard;
+  }
+};
+
 export const calculatePoints = alienList => {
   let points = null;
   const noOfAliens = alienList.length;
