@@ -14,14 +14,56 @@ class GameController extends Component {
       percent: 100
     };
     this.doShoot = this.doShoot.bind(this);
+    this.startCountdown = this.startCountdown.bind(this);
+  }
+
+  /* Use the maxTimeout, showCountdown to calculate and show the countdown timer in the game controller. Before
+     the timer is supposed to show, the value of the timer will be --:--. After the timer has rundown its time,
+     the value will be 00:00. Timer supposed to count down the time in every second. */
+
+  startCountdown() {
+    const interval = this.props.maxTimeout;
+    console.log("Interval: ", interval);
+    let endTime = new Date();
+    endTime.setSeconds(endTime.getSeconds() + interval);
+    console.log("endTime: ", endTime);
+    endTime = endTime.getTime();
+
+    const countdownTimer = setInterval(() => {
+      let now = new Date().getTime();
+      let distance = endTime - now;
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      $("#countMinutes").text(`${minutes}`);
+      $("#countSeconds").text(`${seconds}`);
+
+      if (distance < 0) {
+        clearInterval(countdownTimer);
+      }
+    }, 1000);
   }
 
   render() {
     return (
       <div className="cockpit">
         <div className="row">
+          <div className="offset-sm-4 col-sm-4">
+            <h2 className="timer" align="center">
+              {" "}
+              <span id="countMinutes">{"--"}</span> :{" "}
+              <span id="countSeconds">{"--"}</span>{" "}
+            </h2>
+          </div>
+        </div>
+        <br />
+        <div className="row">
           <div className="col-md-12">
-            <p className="lead" style={{ fontWeight: 900, color: "white", fontSize: 25 }} align="center">
+            <p
+              className="lead"
+              style={{ fontWeight: 900, color: "white", fontSize: 25 }}
+              align="center"
+            >
               Laser Meter
             </p>
           </div>
@@ -37,9 +79,14 @@ class GameController extends Component {
         <br />
         <div className="row">
           <div className="col-md-4">
-            <h2 className="scores">
+            <h3 className="scores">
               Score: <span className="show_score" id="myScore" />
-            </h2>
+              <br />
+              Player: <span className="player">{this.props.playerName}</span>
+              <br />
+              Difficulty:{" "}
+              <span className="difficulty">{this.props.difficulty}</span>
+            </h3>
           </div>
           <div className="col-md-4" align="center">
             <Button
@@ -73,6 +120,12 @@ class GameController extends Component {
         </div>
       </div>
     );
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.showCountdown !== nextProps.showCountdown) {
+      this.startCountdown();
+    }
   }
 
   componentWillReceiveProps(nextProps) {

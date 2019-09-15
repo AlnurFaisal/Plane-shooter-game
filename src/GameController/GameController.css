@@ -26,7 +26,25 @@
 .show_score {
     font-weight: 700;
     color:yellow;
-    font-size: 28px !important;
+    font-size: 22px !important;
+}
+
+.player {
+    font-weight: 700;
+    color: purple;
+    font-size: 22px !important;  
+}
+
+.difficulty {
+    font-weight: 700;
+    color:aqua;
+    font-size: 22px !important;
+}
+
+.timer {
+    background-color: black;
+    color: white;
+    border: none;
 }
 
 .cockpit {

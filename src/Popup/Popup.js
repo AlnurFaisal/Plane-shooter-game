@@ -26,7 +26,7 @@ const Popup = props => {
           <div className="row">
             <div className="col-md-12">
               <p className="h3" align="center">
-                Congratulations!
+                Congratulations {props.playerName}!
                 <br />
                 You have completed the game.
                 <br />
@@ -41,8 +41,8 @@ const Popup = props => {
             </div>
             <div className="offset-md-1 col-md-5">
               <p className="lead">
-                <strong>Time Taken: </strong>
-                <span></span> Minutes
+                <strong>Difficulty: </strong>
+                <span>{props.difficulty}</span>
               </p>
             </div>
             <br />

@@ -64,18 +64,29 @@ export const findDuplicatesFromList = (arr, value) => {
 };
 
 const difficultyLevel = {
-  easy: 3.5,
-  moderate: 3,
-  hard: 2.5
+  Easy: 150,
+  Moderate: 120,
+  Hard: 90
 };
 
 export const setMaxTime = difficulty => {
-  if (difficulty.easy) {
-    return difficultyLevel.easy;
-  } else if (difficulty.moderate) {
-    return difficultyLevel.moderate;
-  } else if (difficulty.hard) {
-    return difficultyLevel.hard;
+  if (difficulty.Easy) {
+    return difficultyLevel.Easy;
+  } else if (difficulty.Moderate) {
+    return difficultyLevel.Moderate;
+  } else if (difficulty.Hard) {
+    return difficultyLevel.Hard;
+  }
+};
+
+export const findDifficulty = difficultyLevels => {
+  for (let key in difficultyLevels) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (difficultyLevels.hasOwnProperty(key)) {
+      if (difficultyLevels[key] === true) {
+        return key;
+      }
+    }
   }
 };
 
@@ -106,13 +117,13 @@ export const checkDifficulty = option => {
   let objOptions = null;
   switch (option) {
     case "easy":
-      objOptions = { easy: true, moderate: false, hard: false };
+      objOptions = { Easy: true, Moderate: false, Hard: false };
       break;
     case "moderate":
-      objOptions = { easy: false, moderate: true, hard: false };
+      objOptions = { Easy: false, Moderate: true, Hard: false };
       break;
     case "hard":
-      objOptions = { easy: false, moderate: false, hard: true };
+      objOptions = { Easy: false, Moderate: false, Hard: true };
       break;
   }
   return objOptions;

@@ -4,7 +4,8 @@ import GameController from "./GameController/GameController";
 import {
   getInitialPixelValue,
   checkAllFalse,
-  setMaxTime
+  setMaxTime,
+  findDifficulty
 } from "./Helper/Helper";
 import Popup from "./Popup/Popup";
 import { Card } from "react-bootstrap";
@@ -28,7 +29,8 @@ class App extends Component {
       points: 0,
       completed: false,
       begin: true,
-      maxTimeout: setMaxTime(props.difficulty)
+      maxTimeout: setMaxTime(props.difficulty),
+      showCountdown: false
     };
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
@@ -40,11 +42,21 @@ class App extends Component {
     this.getInitialPosition = this.getInitialPosition.bind(this);
     this.triggerExplode = this.triggerExplode.bind(this);
     this.toggleStop = this.toggleStop.bind(this);
+    this.showCountdownTimer = this.showCountdownTimer.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.begin !== prevState.begin &&
+      this.state.showCountdown === false
+    ) {
+      this.showCountdownTimer();
+    }
   }
 
   componentDidMount() {
     if (this.state.begin === true) {
-      let counter = 4;
+      let counter = 3;
       let endTime = new Date();
       endTime.setSeconds(endTime.getSeconds() + 3);
       endTime = endTime.getTime();
@@ -52,7 +64,9 @@ class App extends Component {
       const countTimer = setInterval(() => {
         let now = new Date().getTime();
         let difference = endTime - now;
-        $("#countDown").text(counter);
+        if (counter !== 0) {
+          $("#countDown").text(counter);
+        }
         counter--;
         if (difference < 0) {
           this.setState({
@@ -123,8 +137,9 @@ class App extends Component {
               toggleStop={this.toggleStop}
               getPoints={this.state.points}
               playerName={this.props.playerName}
-              difficulty={this.props.difficulty}
+              difficulty={findDifficulty(this.props.difficulty)}
               maxTimeout={this.state.maxTimeout}
+              showCountdown={this.state.showCountdown}
             />
           </Card.Footer>
         </Card>
@@ -133,14 +148,14 @@ class App extends Component {
           show={toggleShow}
           handleClick={this.handleClick.bind(this)}
           playerName={this.props.playerName}
-          difficulty={this.props.difficulty}
-          players={this.props.players}
+          difficulty={findDifficulty(this.props.difficulty)}
         />
       </div>
     );
   }
 
   handleClick() {
+    // call the method here to save the player details & scores after user exits game
     this.setState({
       completed: false
     });
@@ -179,7 +194,13 @@ class App extends Component {
 
   /* Create a method to be called in componentWillMount to check if the popup for
      the begin has been hidden which will trigger some state change. Will then trigger the countdown
-     clock to rundown the time. Pass this method in the GameController */
+     clock to rundown the time. Pass this state used to toggle to show countdown timer in the GameController */
+
+  showCountdownTimer() {
+    this.setState({
+      showCountdown: true
+    });
+  }
 
   updateAllAlienPosition(newPixelPosition, alienIndex) {
     let copyAllAlienPosition = Object.assign(

@@ -17,13 +17,13 @@ class AppParent extends Component {
   }
 
   componentWillMount() {
-    let copySnapshot = null;
+    let copySnapshot = [];
     const getDb = Database.ref("players");
     getDb.on("value", snapshot => {
       console.log("snapshot: ", snapshot);
       snapshot.forEach(childSnapshot => {
         console.log("childSnapshot_key: ", childSnapshot.val());
-        copySnapshot = childSnapshot.val();
+        copySnapshot.push(childSnapshot.val());
       });
       this.setState({
         players: [...copySnapshot]
