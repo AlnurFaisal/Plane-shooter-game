@@ -15,6 +15,8 @@ class GameController extends Component {
     };
     this.doShoot = this.doShoot.bind(this);
     this.startCountdown = this.startCountdown.bind(this);
+    this.stopCountdownTimer = this.stopCountdownTimer.bind(this);
+    this.countdownTimer = null;
   }
 
   /* Use the maxTimeout, showCountdown to calculate and show the countdown timer in the game controller. Before
@@ -29,17 +31,21 @@ class GameController extends Component {
     console.log("endTime: ", endTime);
     endTime = endTime.getTime();
 
-    const countdownTimer = setInterval(() => {
+    this.countdownTimer = setInterval(() => {
       let now = new Date().getTime();
       let distance = endTime - now;
       let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      $("#countMinutes").text(`${minutes}`);
-      $("#countSeconds").text(`${seconds}`);
-
       if (distance < 0) {
-        clearInterval(countdownTimer);
+        $("#countMinutes").text("--");
+        $("#countSeconds").text("--");
+        // will trigger the popup to appear one the time has expired
+        clearInterval(this.countdownTimer);
+        this.props.triggerPopup();
+      } else {
+        $("#countMinutes").text(`${minutes}`);
+        $("#countSeconds").text(`${seconds}`);
       }
     }, 1000);
   }
@@ -122,6 +128,10 @@ class GameController extends Component {
     );
   }
 
+  stopCountdownTimer() {
+    clearInterval(this.countdownTimer);
+  }
+
   componentWillUpdate(nextProps) {
     if (this.props.showCountdown !== nextProps.showCountdown) {
       this.startCountdown();
@@ -132,6 +142,10 @@ class GameController extends Component {
     if (this.props.getPoints !== nextProps.getPoints) {
       console.log("Updated Score: ", nextProps.getPoints);
       $("#myScore").text(`${nextProps.getPoints}`);
+    }
+    if (this.props.stopTimer !== nextProps.stopTimer) {
+      console.log("Stopping countdown timer!");
+      this.stopCountdownTimer();
     }
   }
 

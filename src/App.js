@@ -30,7 +30,8 @@ class App extends Component {
       completed: false,
       begin: true,
       maxTimeout: setMaxTime(props.difficulty),
-      showCountdown: false
+      showCountdown: false,
+      stopTimer: false
     };
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
@@ -81,6 +82,7 @@ class App extends Component {
   render() {
     console.log("maxSquare: ", this.state.maxSquare);
     console.log("All Alien Position: ", this.state.storeAllAlienPosition);
+    console.log("completed: ", this.state.completed);
     const popupSubject = this.state.completed ? "complete" : "begin";
     const toggleShow = this.state.completed || this.state.begin;
     return (
@@ -140,6 +142,8 @@ class App extends Component {
               difficulty={findDifficulty(this.props.difficulty)}
               maxTimeout={this.state.maxTimeout}
               showCountdown={this.state.showCountdown}
+              stopTimer={this.state.stopTimer}
+              triggerPopup={this.triggerPopup.bind(this)}
             />
           </Card.Footer>
         </Card>
@@ -149,6 +153,7 @@ class App extends Component {
           handleClick={this.handleClick.bind(this)}
           playerName={this.props.playerName}
           difficulty={findDifficulty(this.props.difficulty)}
+          getPoints={this.state.points}
         />
       </div>
     );
@@ -202,6 +207,14 @@ class App extends Component {
     });
   }
 
+  triggerPopup() {
+    console.log("Trigerring Popup!");
+    this.setState({
+      completed: true,
+      stopMove: true
+    });
+  }
+
   updateAllAlienPosition(newPixelPosition, alienIndex) {
     let copyAllAlienPosition = Object.assign(
       {},
@@ -211,11 +224,13 @@ class App extends Component {
     /* before setting state check if all the alien position set is set to false
        if so, will update the state with the status completed set to true which
        will trigger a popup to appear */
+    // will stop timer if all aliens are destroyed so we can calculate the scores accurately
     const completed = checkAllFalse(copyAllAlienPosition);
     this.setState(
       {
         completed: completed,
-        storeAllAlienPosition: copyAllAlienPosition
+        storeAllAlienPosition: copyAllAlienPosition,
+        stopTimer: completed
       },
       () => {
         return;
