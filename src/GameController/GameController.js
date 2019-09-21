@@ -44,6 +44,14 @@ class GameController extends Component {
         clearInterval(this.countdownTimer);
         this.props.triggerPopup();
       } else {
+        if (minutes === 0 && seconds < 5) {
+          $("#fire").attr("disabled", true);
+          $("#countMinutes").css("color", "red");
+          $("#countSeconds").css("color", "red");
+          $("#colon").css("color", "red");
+          $("#countMinutes").text(`${minutes}`);
+          $("#countSeconds").text(`${seconds}`);
+        }
         $("#countMinutes").text(`${minutes}`);
         $("#countSeconds").text(`${seconds}`);
       }
@@ -57,7 +65,9 @@ class GameController extends Component {
           <div className="offset-sm-4 col-sm-4">
             <h2 className="timer" align="center">
               {" "}
-              <span id="countMinutes">{"--"}</span> :{" "}
+              <span id="countMinutes">
+                {"--"}
+              </span> <span id="colon">:</span>{" "}
               <span id="countSeconds">{"--"}</span>{" "}
             </h2>
           </div>

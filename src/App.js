@@ -5,7 +5,8 @@ import {
   getInitialPixelValue,
   checkAllFalse,
   setMaxTime,
-  findDifficulty
+  findDifficulty,
+  getDifficultyMultiplier
 } from "./Helper/Helper";
 import Popup from "./Popup/Popup";
 import { Card } from "react-bootstrap";
@@ -121,7 +122,6 @@ class App extends Component {
               getAllAlienPosition={this.getAllAlienPosition.bind(this)}
               updatePoints={this.updatePoints.bind(this)}
               completed={this.state.completed}
-              maxTimeout={this.state.maxTimeout}
             />
           </Card.Body>
           <Card.Footer
@@ -153,10 +153,19 @@ class App extends Component {
           handleClick={this.handleClick.bind(this)}
           playerName={this.props.playerName}
           difficulty={findDifficulty(this.props.difficulty)}
-          getPoints={this.state.points}
+          maxTimeout={this.state.maxTimeout}
+          calculateScore={this.calculateScore.bind(this)}
         />
       </div>
     );
+  }
+
+  calculateScore() {
+    const currentPoints = this.state.points;
+    const difficultyMultiplier = getDifficultyMultiplier(
+      findDifficulty(this.props.difficulty)
+    );
+    return currentPoints * difficultyMultiplier;
   }
 
   handleClick() {

@@ -79,6 +79,16 @@ export const setMaxTime = difficulty => {
   }
 };
 
+const multiplier = {
+  Easy: 1,
+  Moderate: 2,
+  Hard: 3
+};
+
+export const getDifficultyMultiplier = difficulty => {
+  return multiplier[difficulty];
+};
+
 export const findDifficulty = difficultyLevels => {
   for (let key in difficultyLevels) {
     // eslint-disable-next-line no-prototype-builtins

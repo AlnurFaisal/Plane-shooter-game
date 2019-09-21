@@ -36,7 +36,7 @@ const Popup = props => {
             <div className="offset-md-1 col-md-5">
               <p className="lead">
                 <strong>Score: </strong>
-                <span></span> Points
+                <span>{props.calculateScore()}</span> Points
               </p>
             </div>
             <div className="offset-md-1 col-md-5">

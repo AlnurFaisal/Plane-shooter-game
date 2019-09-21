@@ -2,9 +2,16 @@
   "players": [
     {
       "name": "Faisal",
-      "difficulty": "easy",
-      "score": "100",
-      "time_taken": "4"
+      "difficulty": "Easy",
+      "score": "65",
+      "time_taken": "3"
+    }, 
+
+    {
+      "name": "TestUser",
+      "difficulty": "Hard",
+      "score": "200",
+      "time_taken": "1"
     }
   ]
 }
