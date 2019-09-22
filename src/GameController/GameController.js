@@ -45,7 +45,9 @@ class GameController extends Component {
         this.props.triggerPopup();
       } else {
         if (minutes === 0 && seconds < 5) {
-          $("#fire").attr("disabled", true);
+          this.setState({
+            disabled: true
+          });
           $("#countMinutes").css("color", "red");
           $("#countSeconds").css("color", "red");
           $("#colon").css("color", "red");

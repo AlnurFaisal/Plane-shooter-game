@@ -70,13 +70,7 @@ const difficultyLevel = {
 };
 
 export const setMaxTime = difficulty => {
-  if (difficulty.Easy) {
-    return difficultyLevel.Easy;
-  } else if (difficulty.Moderate) {
-    return difficultyLevel.Moderate;
-  } else if (difficulty.Hard) {
-    return difficultyLevel.Hard;
-  }
+  return difficultyLevel[difficulty];
 };
 
 const multiplier = {

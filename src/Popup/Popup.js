@@ -48,7 +48,7 @@ const Popup = props => {
             <br />
             <br />
             <div className="offset-md-7 col-md-5">
-              <Button variant="primary" size="lg">
+              <Button variant="primary" size="lg" onClick={props.handleRetry}>
                 Retry Game
               </Button>
               <Button

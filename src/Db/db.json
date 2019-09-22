@@ -4,14 +4,20 @@
       "name": "Faisal",
       "difficulty": "Easy",
       "score": "65",
-      "time_taken": "3"
+      "time_taken": "3:00"
     }, 
 
     {
       "name": "TestUser",
       "difficulty": "Hard",
       "score": "200",
-      "time_taken": "1"
+      "time_taken": "1:30"
+    }
+  ],
+  "temp": [
+    {
+      "name": "TestUser",
+      "difficulty": "Hard"
     }
   ]
 }

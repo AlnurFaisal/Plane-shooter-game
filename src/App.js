@@ -1,21 +1,22 @@
 import React, { Component } from "react";
 import GameBoard from "./GameBoard/GameBoard";
 import GameController from "./GameController/GameController";
+import { Redirect } from "react-router";
 import {
   getInitialPixelValue,
   checkAllFalse,
   setMaxTime,
-  findDifficulty,
   getDifficultyMultiplier
 } from "./Helper/Helper";
+import { Database } from "./Db/configFirebase";
 import Popup from "./Popup/Popup";
 import { Card } from "react-bootstrap";
 import * as $ from "jquery";
 import "./App.css";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       maxSquare: 56,
       noOfAliens: 15,
@@ -30,9 +31,12 @@ class App extends Component {
       points: 0,
       completed: false,
       begin: true,
-      maxTimeout: setMaxTime(props.difficulty),
+      maxTimeout: null,
       showCountdown: false,
-      stopTimer: false
+      stopTimer: false,
+      home: false,
+      playerName: null,
+      difficulty: null
     };
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
@@ -54,6 +58,21 @@ class App extends Component {
     ) {
       this.showCountdownTimer();
     }
+  }
+
+  componentWillMount() {
+    const getDb = Database.ref("temp");
+    getDb.on("value", snapshot => {
+      console.log("Last Record for Temp: ", snapshot.val());
+      const dbLength = snapshot.val() ? snapshot.val().length - 1 : 0;
+      const db = snapshot.val();
+      console.log("Last Record: ", db[dbLength]);
+      this.setState({
+        maxTimeout: setMaxTime(db[dbLength].difficulty),
+        playerName: db[dbLength].name,
+        difficulty: db[dbLength].difficulty
+      });
+    });
   }
 
   componentDidMount() {
@@ -81,97 +100,106 @@ class App extends Component {
   }
 
   render() {
-    console.log("maxSquare: ", this.state.maxSquare);
-    console.log("All Alien Position: ", this.state.storeAllAlienPosition);
-    console.log("completed: ", this.state.completed);
-    const popupSubject = this.state.completed ? "complete" : "begin";
-    const toggleShow = this.state.completed || this.state.begin;
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <h1
-              id={"test"}
-              align="center"
-              className="title_name"
-              onClick={this.triggerExplode}
-            >
-              Space Wars
-            </h1>
+    if (this.state.home) {
+      return <Redirect to="/" />;
+    } else {
+      console.log("maxSquare: ", this.state.maxSquare);
+      console.log("All Alien Position: ", this.state.storeAllAlienPosition);
+      console.log("completed: ", this.state.completed);
+      const popupSubject = this.state.completed ? "complete" : "begin";
+      const toggleShow = this.state.completed || this.state.begin;
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <h1
+                id={"test"}
+                align="center"
+                className="title_name"
+                onClick={this.triggerExplode}
+              >
+                Space Wars
+              </h1>
+            </div>
           </div>
+          <br />
+          <Card>
+            <Card.Body style={{ padding: "0px" }}>
+              <GameBoard
+                maxSquare={this.state.maxSquare}
+                noOfAliens={this.state.noOfAliens}
+                maxAliens={this.state.maxAliens}
+                playableRows={this.state.playableRows}
+                stopMove={this.state.stopMove}
+                updateAllAlienPosition={this.updateAllAlienPosition}
+                getInitialPlanePosition={this.getInitialPlanePosition}
+                initialPlanePosition={this.state.initialPlanePosition}
+                currentPlanePosition={this.state.currentPlanePosition}
+                currrentPlaneDirection={this.state.currrentPlaneDirection}
+                getCurrentPlanePosition={this.getCurrentPlanePosition}
+                getCurrentPlaneDirection={this.getCurrentPlaneDirection}
+                getInitialPosition={this.getInitialPosition}
+                fire={this.state.fire}
+                resetFire={this.resetFire.bind(this)}
+                getAllAlienPosition={this.getAllAlienPosition.bind(this)}
+                updatePoints={this.updatePoints.bind(this)}
+                completed={this.state.completed}
+              />
+            </Card.Body>
+            <Card.Footer
+              style={{
+                backgroundColor: "black",
+                outline: "1px black solid",
+                border: "1px solid"
+              }}
+            >
+              <GameController
+                moveLeft={this.moveLeft}
+                moveRight={this.moveRight}
+                currentPlanePosition={this.state.currentPlanePosition}
+                fireOff={this.fireOff.bind(this)}
+                toggleStop={this.toggleStop}
+                getPoints={this.state.points}
+                playerName={this.state.playerName}
+                difficulty={this.state.difficulty}
+                maxTimeout={this.state.maxTimeout}
+                showCountdown={this.state.showCountdown}
+                stopTimer={this.state.stopTimer}
+                triggerPopup={this.triggerPopup.bind(this)}
+              />
+            </Card.Footer>
+          </Card>
+          <Popup
+            popup={popupSubject}
+            show={toggleShow}
+            handleClick={this.handleClick.bind(this)}
+            handleRetry={this.handleRetry.bind(this)}
+            playerName={this.state.playerName}
+            difficulty={this.state.difficulty}
+            maxTimeout={this.state.maxTimeout}
+            calculateScore={this.calculateScore.bind(this)}
+          />
         </div>
-        <br />
-        <Card>
-          <Card.Body style={{ padding: "0px" }}>
-            <GameBoard
-              maxSquare={this.state.maxSquare}
-              noOfAliens={this.state.noOfAliens}
-              maxAliens={this.state.maxAliens}
-              playableRows={this.state.playableRows}
-              stopMove={this.state.stopMove}
-              updateAllAlienPosition={this.updateAllAlienPosition}
-              getInitialPlanePosition={this.getInitialPlanePosition}
-              initialPlanePosition={this.state.initialPlanePosition}
-              currentPlanePosition={this.state.currentPlanePosition}
-              currrentPlaneDirection={this.state.currrentPlaneDirection}
-              getCurrentPlanePosition={this.getCurrentPlanePosition}
-              getCurrentPlaneDirection={this.getCurrentPlaneDirection}
-              getInitialPosition={this.getInitialPosition}
-              fire={this.state.fire}
-              resetFire={this.resetFire.bind(this)}
-              getAllAlienPosition={this.getAllAlienPosition.bind(this)}
-              updatePoints={this.updatePoints.bind(this)}
-              completed={this.state.completed}
-            />
-          </Card.Body>
-          <Card.Footer
-            style={{
-              backgroundColor: "black",
-              outline: "1px black solid",
-              border: "1px solid"
-            }}
-          >
-            <GameController
-              moveLeft={this.moveLeft}
-              moveRight={this.moveRight}
-              currentPlanePosition={this.state.currentPlanePosition}
-              fireOff={this.fireOff.bind(this)}
-              toggleStop={this.toggleStop}
-              getPoints={this.state.points}
-              playerName={this.props.playerName}
-              difficulty={findDifficulty(this.props.difficulty)}
-              maxTimeout={this.state.maxTimeout}
-              showCountdown={this.state.showCountdown}
-              stopTimer={this.state.stopTimer}
-              triggerPopup={this.triggerPopup.bind(this)}
-            />
-          </Card.Footer>
-        </Card>
-        <Popup
-          popup={popupSubject}
-          show={toggleShow}
-          handleClick={this.handleClick.bind(this)}
-          playerName={this.props.playerName}
-          difficulty={findDifficulty(this.props.difficulty)}
-          maxTimeout={this.state.maxTimeout}
-          calculateScore={this.calculateScore.bind(this)}
-        />
-      </div>
-    );
+      );
+    }
   }
+
+  // create a method below to collect and store the time in the state so we can save in firebaseDb
 
   calculateScore() {
     const currentPoints = this.state.points;
-    const difficultyMultiplier = getDifficultyMultiplier(
-      findDifficulty(this.props.difficulty)
-    );
+    const difficultyMultiplier = getDifficultyMultiplier(this.state.difficulty);
     return currentPoints * difficultyMultiplier;
+  }
+
+  handleRetry() {
+    window.location.reload();
   }
 
   handleClick() {
     // call the method here to save the player details & scores after user exits game
     this.setState({
-      completed: false
+      home: true
     });
   }
 

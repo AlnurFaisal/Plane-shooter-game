@@ -3,15 +3,12 @@ import { BrowserRouter, Route } from "react-router-dom";
 import App from "./App";
 import Home from "./Home/Home";
 import Register from "./Registration/Register";
-import { checkDifficulty } from "./Helper/Helper";
 import { Database } from "./Db/configFirebase";
 
 class AppParent extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
-      options: {},
       players: []
     };
   }
@@ -31,20 +28,6 @@ class AppParent extends Component {
     });
   }
 
-  handleChange(event) {
-    this.setState({
-      name: event.target.value
-    });
-  }
-
-  handleClick(event) {
-    const option = event.target.id;
-    const objOptions = checkDifficulty(option);
-    this.setState({
-      options: Object.assign({}, objOptions)
-    });
-  }
-
   render() {
     return (
       <div>
@@ -52,23 +35,9 @@ class AppParent extends Component {
           <Route exact path="/" component={Home} />
           <Route
             path="/game"
-            render={() => (
-              <App
-                players={this.state.players}
-                playerName={this.state.name}
-                difficulty={this.state.options}
-              />
-            )}
+            render={() => <App players={this.state.players} />}
           />
-          <Route
-            path="/register"
-            render={() => (
-              <Register
-                handleClick={this.handleClick.bind(this)}
-                handleChange={this.handleChange.bind(this)}
-              />
-            )}
-          />
+          <Route path="/register" render={() => <Register />} />
         </BrowserRouter>
       </div>
     );

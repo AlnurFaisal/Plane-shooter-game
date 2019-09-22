@@ -6,23 +6,65 @@ import Col from "react-bootstrap/Col";
 import FormCheck from "react-bootstrap/FormCheck";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router-dom";
+import { checkDifficulty, findDifficulty } from "../Helper/Helper";
+import { Database } from "../Db/configFirebase";
 import "./Register.css";
 
 class Register extends Component {
   constructor() {
     super();
     this.state = {
-      complete: false
+      complete: false,
+      name: "",
+      options: {},
+      dbLength: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.storeToDB = this.storeToDB.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    // before moving to game component, will store the values of difficulty and playerName to firebaseDb
+    this.storeToDB(this.state.name, findDifficulty(this.state.options));
     /* call the setState method below to change the complete status to true
        so the redirect to the app component can happen */
     this.setState({
       complete: true
+    });
+  }
+
+  componentWillMount() {
+    const getDb = Database.ref("temp");
+    getDb.on("value", snapshot => {
+      const dbLength = snapshot.val() ? snapshot.val().length : 0;
+      this.setState({
+        dbLength: dbLength
+      });
+    });
+  }
+
+  storeToDB(name, difficulty) {
+    // create a new record
+    Database.ref(`temp/${this.state.dbLength}`).set({
+      difficulty: difficulty,
+      name: name
+    });
+  }
+
+  handleChange(event) {
+    this.setState({
+      name: event.target.value
+    });
+  }
+
+  handleClick(event) {
+    const option = event.target.id;
+    const objOptions = checkDifficulty(option);
+    this.setState({
+      options: Object.assign({}, objOptions)
     });
   }
 
@@ -59,7 +101,7 @@ class Register extends Component {
                         type="text"
                         placeholder="Name"
                         value={this.state.value}
-                        onChange={this.props.handleChange}
+                        onChange={this.handleChange}
                       />
                     </Col>
                   </Form.Group>
@@ -77,7 +119,7 @@ class Register extends Component {
                             inline
                             name="formHorizontalRadios"
                             id="easy"
-                            onClick={this.props.handleClick}
+                            onClick={this.handleClick}
                           />
                           <FormCheck
                             style={{ marginLeft: "5px" }}
@@ -86,7 +128,7 @@ class Register extends Component {
                             inline
                             name="formHorizontalRadios"
                             id="moderate"
-                            onClick={this.props.handleClick}
+                            onClick={this.handleClick}
                           />
                           <FormCheck
                             style={{ marginLeft: "5px" }}
@@ -95,7 +137,7 @@ class Register extends Component {
                             inline
                             name="formHorizontalRadios"
                             id="hard"
-                            onClick={this.props.handleClick}
+                            onClick={this.handleClick}
                           />
                         </span>
                       </Col>
