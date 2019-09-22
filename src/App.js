@@ -63,8 +63,7 @@ class App extends Component {
   componentWillMount() {
     const getDb = Database.ref("temp");
     getDb.on("value", snapshot => {
-      console.log("Last Record for Temp: ", snapshot.val());
-      const dbLength = snapshot.val() ? snapshot.val().length - 1 : 0;
+      const dbLength = snapshot.val().length - 1;
       const db = snapshot.val();
       console.log("Last Record: ", db[dbLength]);
       this.setState({
