@@ -17,6 +17,8 @@ class GameController extends Component {
     this.startCountdown = this.startCountdown.bind(this);
     this.stopCountdownTimer = this.stopCountdownTimer.bind(this);
     this.countdownTimer = null;
+    this.minutes = null;
+    this.seconds = null;
   }
 
   /* Use the maxTimeout, showCountdown to calculate and show the countdown timer in the game controller. Before
@@ -34,28 +36,29 @@ class GameController extends Component {
     this.countdownTimer = setInterval(() => {
       let now = new Date().getTime();
       let distance = endTime - now;
-      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      this.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      this.seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       if (distance < 0) {
         $("#countMinutes").text("--");
         $("#countSeconds").text("--");
         // will trigger the popup to appear one the time has expired
         clearInterval(this.countdownTimer);
+        this.props.setLastTiming(0, 0);
         this.props.triggerPopup();
       } else {
-        if (minutes === 0 && seconds < 5) {
+        if (this.minutes === 0 && this.seconds < 5) {
           this.setState({
             disabled: true
           });
           $("#countMinutes").css("color", "red");
           $("#countSeconds").css("color", "red");
           $("#colon").css("color", "red");
-          $("#countMinutes").text(`${minutes}`);
-          $("#countSeconds").text(`${seconds}`);
+          $("#countMinutes").text(`${this.minutes}`);
+          $("#countSeconds").text(`${this.seconds}`);
         }
-        $("#countMinutes").text(`${minutes}`);
-        $("#countSeconds").text(`${seconds}`);
+        $("#countMinutes").text(`${this.minutes}`);
+        $("#countSeconds").text(`${this.seconds}`);
       }
     }, 1000);
   }
@@ -158,6 +161,7 @@ class GameController extends Component {
     if (this.props.stopTimer !== nextProps.stopTimer) {
       console.log("Stopping countdown timer!");
       this.stopCountdownTimer();
+      this.props.setLastTiming(this.minutes, this.seconds);
     }
   }
 

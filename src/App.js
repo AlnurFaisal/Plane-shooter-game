@@ -36,7 +36,8 @@ class App extends Component {
       stopTimer: false,
       home: false,
       playerName: null,
-      difficulty: null
+      difficulty: null,
+      finalTime: null
     };
     this.updateAllAlienPosition = this.updateAllAlienPosition.bind(this);
     this.moveLeft = this.moveLeft.bind(this);
@@ -49,6 +50,7 @@ class App extends Component {
     this.triggerExplode = this.triggerExplode.bind(this);
     this.toggleStop = this.toggleStop.bind(this);
     this.showCountdownTimer = this.showCountdownTimer.bind(this);
+    this.calculateScore = this.calculateScore.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -165,6 +167,7 @@ class App extends Component {
                 showCountdown={this.state.showCountdown}
                 stopTimer={this.state.stopTimer}
                 triggerPopup={this.triggerPopup.bind(this)}
+                setLastTiming={this.setLastTiming.bind(this)}
               />
             </Card.Footer>
           </Card>
@@ -175,8 +178,8 @@ class App extends Component {
             handleRetry={this.handleRetry.bind(this)}
             playerName={this.state.playerName}
             difficulty={this.state.difficulty}
-            maxTimeout={this.state.maxTimeout}
-            calculateScore={this.calculateScore.bind(this)}
+            calculateScore={this.calculateScore}
+            finalTime={this.state.finalTime}
           />
         </div>
       );
@@ -184,6 +187,18 @@ class App extends Component {
   }
 
   // create a method below to collect and store the time in the state so we can save in firebaseDb
+  setLastTiming(minutes, seconds) {
+    /* need to convert minutes to seconds then calculate total seconds taken by
+       subtracting total seconds game allow to the seconds taken */
+    const maxTimeout = this.state.maxTimeout / 60;
+    const leftoverTime = minutes + seconds / 60;
+    let finalTime = maxTimeout - leftoverTime;
+    finalTime = `${Math.round(finalTime * 10) / 10}`;
+    const setTiming = finalTime.split(".");
+    this.setState({
+      finalTime: `${setTiming[0]} Minutes ${(setTiming[1] / 10) * 60} Seconds`
+    });
+  }
 
   calculateScore() {
     const currentPoints = this.state.points;
@@ -196,7 +211,18 @@ class App extends Component {
   }
 
   handleClick() {
+    const difficulty = this.state.difficulty;
+    const name = this.state.playerName;
+    const score = this.calculateScore();
+    const timeTaken = this.state.finalTime;
     // call the method here to save the player details & scores after user exits game
+    const playersLength = this.props.playersLength;
+    Database.ref(`players/${playersLength}`).set({
+      difficulty: difficulty,
+      name: name,
+      score: score,
+      time_taken: timeTaken
+    });
     this.setState({
       home: true
     });

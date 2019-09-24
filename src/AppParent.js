@@ -9,21 +9,16 @@ class AppParent extends Component {
   constructor() {
     super();
     this.state = {
-      players: []
+      playersLength: null
     };
   }
 
   componentWillMount() {
-    let copySnapshot = [];
     const getDb = Database.ref("players");
     getDb.on("value", snapshot => {
-      console.log("snapshot: ", snapshot);
-      snapshot.forEach(childSnapshot => {
-        console.log("childSnapshot_key: ", childSnapshot.val());
-        copySnapshot.push(childSnapshot.val());
-      });
+      const dbLength = snapshot.val() ? snapshot.val().length : 0;
       this.setState({
-        players: [...copySnapshot]
+        playersLength: dbLength
       });
     });
   }
@@ -35,7 +30,7 @@ class AppParent extends Component {
           <Route exact path="/" component={Home} />
           <Route
             path="/game"
-            render={() => <App players={this.state.players} />}
+            render={() => <App playersLength={this.state.playersLength} />}
           />
           <Route path="/register" render={() => <Register />} />
         </BrowserRouter>
