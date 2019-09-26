@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import App from "./App";
 import Home from "./Home/Home";
 import Register from "./Registration/Register";
+import Leaderboard from "./Leaderboard/Leaderboard";
 import { Database } from "./Db/configFirebase";
 
 class AppParent extends Component {
@@ -28,6 +29,7 @@ class AppParent extends Component {
       <div>
         <BrowserRouter>
           <Route exact path="/" component={Home} />
+          <Route path="/leaderboard" component={Leaderboard} />
           <Route
             path="/game"
             render={() => <App playersLength={this.state.playersLength} />}

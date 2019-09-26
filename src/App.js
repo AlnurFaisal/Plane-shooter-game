@@ -63,16 +63,12 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const getDb = Database.ref("temp");
-    getDb.on("value", snapshot => {
-      const dbLength = snapshot.val().length - 1;
-      const db = snapshot.val();
-      console.log("Last Record: ", db[dbLength]);
-      this.setState({
-        maxTimeout: setMaxTime(db[dbLength].difficulty),
-        playerName: db[dbLength].name,
-        difficulty: db[dbLength].difficulty
-      });
+    const playerName = localStorage.getItem("playername");
+    const difficulty = localStorage.getItem("difficulty");
+    this.setState({
+      maxTimeout: setMaxTime(difficulty),
+      playerName: playerName,
+      difficulty: difficulty
     });
   }
 
@@ -188,8 +184,6 @@ class App extends Component {
 
   // create a method below to collect and store the time in the state so we can save in firebaseDb
   setLastTiming(minutes, seconds) {
-    /* need to convert minutes to seconds then calculate total seconds taken by
-       subtracting total seconds game allow to the seconds taken */
     const maxTimeout = this.state.maxTimeout / 60;
     const leftoverTime = minutes + seconds / 60;
     let finalTime = maxTimeout - leftoverTime;
@@ -223,6 +217,7 @@ class App extends Component {
       score: score,
       time_taken: timeTaken
     });
+    localStorage.clear();
     this.setState({
       home: true
     });

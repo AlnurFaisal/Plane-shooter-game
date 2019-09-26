@@ -8,14 +8,18 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
-      register: false
+      register: false,
+      leaderboard: false
     };
     this.toRegister = this.toRegister.bind(this);
+    this.toLeaderboard = this.toLeaderboard.bind(this);
   }
 
   render() {
     if (this.state.register) {
       return <Redirect to="/register" />;
+    } else if (this.state.leaderboard) {
+      return <Redirect to="/leaderboard" />;
     } else {
       return (
         <Jumbotron fluid>
@@ -53,6 +57,7 @@ class Home extends Component {
                   variant="primary"
                   size="lg"
                   style={{ marginLeft: "5px" }}
+                  onClick={this.toLeaderboard}
                 >
                   Leaderboard
                 </Button>
@@ -67,6 +72,12 @@ class Home extends Component {
   toRegister() {
     this.setState({
       register: true
+    });
+  }
+
+  toLeaderboard() {
+    this.setState({
+      leaderboard: true
     });
   }
 }

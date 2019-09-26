@@ -7,7 +7,6 @@ import FormCheck from "react-bootstrap/FormCheck";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router-dom";
 import { checkDifficulty, findDifficulty } from "../Helper/Helper";
-import { Database } from "../Db/configFirebase";
 import "./Register.css";
 
 class Register extends Component {
@@ -16,19 +15,21 @@ class Register extends Component {
     this.state = {
       complete: false,
       name: "",
-      options: {},
-      dbLength: null
+      options: {}
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.storeToDB = this.storeToDB.bind(this);
+    this.storeToLocalStorage = this.storeToLocalStorage.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
     // before moving to game component, will store the values of difficulty and playerName to firebaseDb
-    this.storeToDB(this.state.name, findDifficulty(this.state.options));
+    this.storeToLocalStorage(
+      this.state.name,
+      findDifficulty(this.state.options)
+    );
     /* call the setState method below to change the complete status to true
        so the redirect to the app component can happen */
     this.setState({
@@ -36,22 +37,9 @@ class Register extends Component {
     });
   }
 
-  componentWillMount() {
-    const getDb = Database.ref("temp");
-    getDb.on("value", snapshot => {
-      const dbLength = snapshot.val() ? snapshot.val().length : 0;
-      this.setState({
-        dbLength: dbLength
-      });
-    });
-  }
-
-  storeToDB(name, difficulty) {
-    // create a new record
-    Database.ref(`temp/${this.state.dbLength}`).set({
-      difficulty: difficulty,
-      name: name
-    });
+  storeToLocalStorage(name, difficulty) {
+    localStorage.setItem("playername", name);
+    localStorage.setItem("difficulty", difficulty);
   }
 
   handleChange(event) {
