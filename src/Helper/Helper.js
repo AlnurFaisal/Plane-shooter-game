@@ -58,9 +58,25 @@ const compare = (a, b) => {
 
 export const findDuplicatesFromList = (arr, value) => {
   if (arr.includes(value.toString())) {
-    console.log("This is a match!");
     return true;
   }
+};
+
+const compareScores = (a, b) => {
+  const scoreA = a.score;
+  const scoreB = b.score;
+
+  let comparison = 0;
+  if (scoreA > scoreB) {
+    comparison = -1;
+  } else if (scoreA < scoreB) {
+    comparison = 1;
+  }
+  return comparison;
+};
+
+export const sortScores = players => {
+  return players.sort(compareScores);
 };
 
 const difficultyLevel = {
@@ -113,7 +129,6 @@ export const calculatePoints = alienList => {
     default:
       points = 0;
   }
-  console.log("calculated points: ", points);
   return points;
 };
 
@@ -296,7 +311,6 @@ export const randomizedDirection = numOfRows => {
     arr.push(direction[randomNum]);
     i++;
   }
-  console.log("direction_array: ", arr);
   return arr;
 };
 
@@ -313,7 +327,6 @@ export const fixDuplicate = arr => {
     if (findDuplicates(arr[i], arr[i - 1])) {
       let removed = copyArr.splice(i - counter, 1);
       counter++;
-      console.log(`Removed ${removed} from aliens array.`);
     }
     i += 1;
   }

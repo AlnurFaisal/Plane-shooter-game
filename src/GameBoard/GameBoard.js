@@ -38,7 +38,6 @@ class GameBoard extends Component {
       let copyAliens = [...this.state.aliens];
       let sortedAliens = sortArray(copyAliens);
       let copyCurrentItr = this.state.currentItr;
-      console.log("sortedAliens: ", sortedAliens);
       let removeDuplicateAliens = fixDuplicate(sortedAliens);
       let storeDirections = assignDirection(
         removeDuplicateAliens,
@@ -112,7 +111,6 @@ class GameBoard extends Component {
 
   destroyAliens(aliens) {
     if (aliens[0] !== this.state.prevAliens) {
-      console.log("Destroyed Aliens: ", aliens);
       const copyPoints = calculatePoints(aliens);
       this.props.updatePoints(copyPoints);
       this.setState({

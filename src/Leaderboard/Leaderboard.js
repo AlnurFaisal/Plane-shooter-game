@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Database } from "../Db/configFirebase";
 import { Redirect } from "react-router";
+import { sortScores } from "../Helper/Helper";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
@@ -19,7 +20,8 @@ class Leaderboard extends Component {
   componentWillMount() {
     const getDb = Database.ref("players");
     getDb.on("value", snapshot => {
-      const copyPlayers = snapshot.val();
+      let copyPlayers = snapshot.val();
+      copyPlayers = sortScores(copyPlayers);
       this.setState({
         players: [...copyPlayers]
       });

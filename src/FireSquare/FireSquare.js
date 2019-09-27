@@ -77,10 +77,8 @@ class FireSquare extends Component {
         }
       }
     }
-    console.log("alienList: ", alienList);
     // reverse sort the alien list and take the largest index value
     alienList = alienList.length > 0 ? alienList.reverse() : [];
-    console.log("Desc alienList: ", alienList);
     /* filter the list further to see there are any more aliens that belong to the same row as the
        largest index and remove those that are not of the same row
     */
@@ -90,8 +88,6 @@ class FireSquare extends Component {
       alienList.length > 0
         ? filterArrayBasedOnRows(largestIndexRow, alienList)
         : [];
-    console.log("obj: ", { largestIndexRow, destroyAlienList });
-
     return { largestIndexRow, destroyAlienList };
   }
 
@@ -107,7 +103,6 @@ class FireSquare extends Component {
       }, this.state.milliseconds);
     } else {
       const move = getMoveValue(row);
-      console.log("getMoveValue: ", move);
       $("#" + this.laser.current.id).removeClass();
       $("#" + this.laser.current.id).css("display", "inline");
       setTimeout(() => {

@@ -100,9 +100,6 @@ class App extends Component {
     if (this.state.home) {
       return <Redirect to="/" />;
     } else {
-      console.log("maxSquare: ", this.state.maxSquare);
-      console.log("All Alien Position: ", this.state.storeAllAlienPosition);
-      console.log("completed: ", this.state.completed);
       const popupSubject = this.state.completed ? "complete" : "begin";
       const toggleShow = this.state.completed || this.state.begin;
       return (
@@ -265,7 +262,6 @@ class App extends Component {
   }
 
   triggerPopup() {
-    console.log("Trigerring Popup!");
     this.setState({
       completed: true,
       stopMove: true
@@ -331,8 +327,6 @@ class App extends Component {
     // set the code below to check and determine whether to move left anot
     // if move left will over hit the edge, stay in the most left square
     // will update the state value the plane position and direction after the move and this value will be passed down to plane component
-    console.log("currPosition: ", currPosition);
-    console.log("move left App.js: ", true);
     if (this.neverExceedEdge(currPosition, "left")) {
       this.setState(
         {
@@ -350,8 +344,6 @@ class App extends Component {
     // set the code below to check and determine whether to move right anot
     // if move right will over hit the edge, stay in the most right square
     // will update the state value the plane position and direction after the move and this value will be passed down to plane component
-    console.log("currPosition: ", currPosition);
-    console.log("move right App.js: ", true);
     if (this.neverExceedEdge(currPosition, "right")) {
       this.setState(
         {

@@ -27,10 +27,8 @@ class GameController extends Component {
 
   startCountdown() {
     const interval = this.props.maxTimeout;
-    console.log("Interval: ", interval);
     let endTime = new Date();
     endTime.setSeconds(endTime.getSeconds() + interval);
-    console.log("endTime: ", endTime);
     endTime = endTime.getTime();
 
     this.countdownTimer = setInterval(() => {
@@ -155,11 +153,9 @@ class GameController extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.getPoints !== nextProps.getPoints) {
-      console.log("Updated Score: ", nextProps.getPoints);
       $("#myScore").text(`${nextProps.getPoints}`);
     }
     if (this.props.stopTimer !== nextProps.stopTimer) {
-      console.log("Stopping countdown timer!");
       this.stopCountdownTimer();
       this.props.setLastTiming(this.minutes, this.seconds);
     }
@@ -179,7 +175,6 @@ class GameController extends Component {
       this.setState({ percent: (this.state.percent += 25) }, () => {
         let now = new Date().getTime();
         let distance = endTime - now;
-        console.log("distance: ", distance);
         if (distance < 0) {
           this.setState({
             disabled: !this.state.disabled
@@ -195,13 +190,8 @@ class GameController extends Component {
   }
 
   movement(retry, event) {
-    console.log(
-      "Game_Controller Current Plane Position: ",
-      this.props.currentPlanePosition
-    );
     event.preventDefault();
     let directionId = event.target.id;
-    console.log("directionId: ", directionId);
     if (retry === false) {
       directionId === "left"
         ? this.props.moveLeft(this.props.currentPlanePosition)

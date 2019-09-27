@@ -29,7 +29,6 @@ class Plane extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("Previous plane position: ", this.state.currentPosition);
     if (
       this.props.currentPlanePosition !== nextProps.currentPlanePosition ||
       this.props.currentPlaneDirection !== nextProps.currentPlaneDirection ||
@@ -42,10 +41,6 @@ class Plane extends Component {
           currentDirection: this.props.getCurrentPlaneDirection()
         },
         () => {
-          console.log("Initial Plane Position: ", this.state.initialPosition);
-          console.log("Current Plane Position: ", this.state.currentPosition);
-          console.log("Current Plane Direction: ", this.state.currentDirection);
-          console.log("Initializing plane movement: ", true);
           $("#" + this.plane.current.id).removeClass();
           $("#" + this.plane.current.id).addClass(
             this.setMovement(
@@ -97,24 +92,14 @@ class Plane extends Component {
     let value = null;
     if (direction === "left") {
       value = initialPixel - nextPixel;
-      console.log(
-        `Move Left from ${initialPixel} to ${nextPixel} (${initialPixel} - ${nextPixel}) : `,
-        value
-      );
     } else {
       value = nextPixel - initialPixel;
-      console.log(
-        `Move Right from ${initialPixel} to ${nextPixel} (${nextPixel} - ${initialPixel}) : `,
-        value
-      );
     }
 
     let obj =
       value < 0
         ? this.handleNegativeValue(value, direction)
         : { value: value, direction: direction };
-    console.log("obj.value: ", obj.value);
-    console.log("obj.direction: ", obj.direction);
     return obj.direction === "left"
       ? `move_left_${obj.value}`
       : `move_right_${obj.value}`;
