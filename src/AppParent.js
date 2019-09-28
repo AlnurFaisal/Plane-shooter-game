@@ -25,7 +25,6 @@ class AppParent extends Component {
   }
 
   render() {
-    console.log("Testing");
     return (
       <div>
         <BrowserRouter>

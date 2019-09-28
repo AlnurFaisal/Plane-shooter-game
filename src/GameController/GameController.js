@@ -74,6 +74,16 @@ class GameController extends Component {
               <span id="countSeconds">{"--"}</span>{" "}
             </h2>
           </div>
+          <div className="offset-sm-2 col-sm-2">
+            <Button
+              id="abort"
+              variant="danger"
+              size="sm"
+              onClick={this.props.goHome}
+            >
+              <h5 className="fireButton">Abort Ship</h5>
+            </Button>
+          </div>
         </div>
         <br />
         <div className="row">

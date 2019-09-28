@@ -161,6 +161,7 @@ class App extends Component {
                 stopTimer={this.state.stopTimer}
                 triggerPopup={this.triggerPopup.bind(this)}
                 setLastTiming={this.setLastTiming.bind(this)}
+                goHome={this.goHome.bind(this)}
               />
             </Card.Footer>
           </Card>
@@ -199,6 +200,27 @@ class App extends Component {
 
   handleRetry() {
     window.location.reload();
+  }
+
+  goHome() {
+    this.setState(
+      {
+        stopMove: true
+      },
+      () => {
+        this.setState(
+          {
+            stopTimer: true
+          },
+          () => {
+            this.setState({
+              home: true
+            });
+          }
+        );
+      }
+    );
+    localStorage.clear();
   }
 
   handleClick() {

@@ -104,6 +104,8 @@ class Leaderboard extends Component {
               <Button size="lg" variant="success" onClick={this.goHome} block>
                 Go Back
               </Button>
+              <br />
+              <br />
             </div>
           </div>
         </div>
