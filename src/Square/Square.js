@@ -42,10 +42,7 @@ class Square extends Component {
       this.props.destroyedAliens !== nextProps.destroyedAliens &&
       copyDestroyedAliens.length > 0
     ) {
-      console.log("Trigerring the aliens to explode: ", true);
-      console.log("Aliens to be destroyed: ", copyDestroyedAliens);
       const indexNum = this.props.indexNum;
-      console.log("indexNum value for the square: ", indexNum);
       const copyDestroyStatus = this.state.destroyed;
       if (
         findDuplicatesFromList(copyDestroyedAliens, indexNum) &&
@@ -87,20 +84,11 @@ class Square extends Component {
         ? pixelMoveNew
         : pixelMove;
     initialPixel = this.state.initialPixelPosition;
-    console.log("alien ids: ", this.alien.current.id);
     setTimeout(() => {
       $("#" + this.alien.current.id).addClass(
         this.setMovement(direction, truePixelMove, initialPixel)
       );
       this.props.updateAllAlienPosition(truePixelMove, this.props.indexNum);
-      console.log(
-        `initial pixel position for ${this.props.indexNum}: `,
-        initialPixel
-      );
-      console.log(
-        `current pixel position for ${this.props.indexNum}: `,
-        truePixelMove
-      );
       this.setState(
         {
           currentPixelPosition: truePixelMove
@@ -154,8 +142,6 @@ class Square extends Component {
       value < 0
         ? this.handleNegativeValue(value, direction)
         : { value: value, direction: direction };
-    console.log("obj.value: ", obj.value);
-    console.log("obj.direction: ", obj.direction);
     return obj.direction === "left"
       ? `move_left_${obj.value}`
       : `move_right_${obj.value}`;
@@ -180,17 +166,6 @@ class Square extends Component {
     const maxValue = 948;
     let exceed = false;
     let value = null;
-    console.log("initial entry direction value: ", direction);
-    console.log("initial entry currentPixel value: ", currentPixel);
-    console.log(
-      "check currentPixel exceed maxValue: ",
-      currentPixel > maxValue
-    );
-    console.log(
-      "check currentPixel exceed minValue: ",
-      currentPixel < minValue
-    );
-
     if (currentPixel < minValue) {
       exceed = true;
       value = 158;
@@ -206,7 +181,6 @@ class Square extends Component {
     }
 
     if (exceed === true) {
-      console.log(`returned currentPixel ${alienId}: `, value);
       return value;
     }
   }
@@ -233,18 +207,6 @@ class Square extends Component {
         truePixelMove = false;
       }
       initialPixel = this.state.initialPixelPosition;
-      console.log(
-        `initial pixel position for ${this.props.indexNum}: `,
-        initialPixel
-      );
-      console.log(
-        `current pixel position for ${this.props.indexNum}: `,
-        currentPixel
-      );
-      console.log(
-        `next pixel position for ${this.props.indexNum}: `,
-        truePixelMove
-      );
       $("#" + this.alien.current.id).removeClass();
       $("#" + this.alien.current.id).addClass(
         this.setMovement(direction, truePixelMove, initialPixel)

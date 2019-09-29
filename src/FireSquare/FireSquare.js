@@ -21,7 +21,6 @@ class FireSquare extends Component {
       padding: "5px 5px",
       marginLeft: "45px",
       height: "50px",
-      display: "none",
       WebkitTransition: "all .4s",
       MozTransition: "all .4s",
       MsTransition: "all .4s",
@@ -57,7 +56,9 @@ class FireSquare extends Component {
         trigger the explode effect */
         this.props.destroyAliens(obj.destroyAlienList);
         this.props.resetFire();
-        $("#" + this.laser.current.id).css("display", "none");
+        $("#" + this.laser.current.id).attr("src", "");
+        $("#" + this.laser.current.id).removeClass();
+        $("#" + this.laser.current.id).addClass("reset");
       }, this.state.milliseconds2);
     }
   }
@@ -97,14 +98,14 @@ class FireSquare extends Component {
     // when row is empty will move the laser all the way to the top row of the "GameBoard"
     if (row === null) {
       $("#" + this.laser.current.id).removeClass();
-      $("#" + this.laser.current.id).css("display", "inline");
+      $("#" + this.laser.current.id).attr("src", laser);
       setTimeout(() => {
         $("#" + this.laser.current.id).addClass("move_all_up");
       }, this.state.milliseconds);
     } else {
       const move = getMoveValue(row);
       $("#" + this.laser.current.id).removeClass();
-      $("#" + this.laser.current.id).css("display", "inline");
+      $("#" + this.laser.current.id).attr("src", laser);
       setTimeout(() => {
         $("#" + this.laser.current.id).addClass(`move_up_${move}`);
       }, this.state.milliseconds);
@@ -116,8 +117,7 @@ class FireSquare extends Component {
       <div className="square_fire" id={"square_" + this.props.indexNum}>
         <img
           id={"fire_" + this.props.indexNum}
-          src={laser}
-          alt="fire"
+          src=""
           style={this.fireStyle}
           ref={this.laser}
         />
