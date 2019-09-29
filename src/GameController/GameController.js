@@ -11,7 +11,8 @@ class GameController extends Component {
     this.state = {
       milliseconds: 5000,
       disabled: false,
-      percent: 100
+      percent: 100,
+      final: false
     };
     this.doShoot = this.doShoot.bind(this);
     this.startCountdown = this.startCountdown.bind(this);
@@ -47,7 +48,8 @@ class GameController extends Component {
       } else {
         if (this.minutes === 0 && this.seconds < 5) {
           this.setState({
-            disabled: true
+            disabled: true,
+            final: true
           });
           $("#countMinutes").css("color", "red");
           $("#countSeconds").css("color", "red");
@@ -186,9 +188,11 @@ class GameController extends Component {
         let now = new Date().getTime();
         let distance = endTime - now;
         if (distance < 0) {
-          this.setState({
-            disabled: !this.state.disabled
-          });
+          if (this.state.final === false) {
+            this.setState({
+              disabled: !this.state.disabled
+            });
+          }
           clearInterval(x);
         }
       });
