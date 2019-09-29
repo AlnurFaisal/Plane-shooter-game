@@ -203,6 +203,8 @@ class App extends Component {
   }
 
   goHome() {
+    localStorage.removeItem("playername");
+    localStorage.removeItem("difficulty");
     this.setState(
       {
         stopMove: true
@@ -220,8 +222,6 @@ class App extends Component {
         );
       }
     );
-    localStorage.removeItem("playername");
-    localStorage.removeItem("difficulty");
   }
 
   handleClick() {
