@@ -97,15 +97,15 @@ class FireSquare extends Component {
        value then explode and hide the aliens using its indexNum value. */
     // when row is empty will move the laser all the way to the top row of the "GameBoard"
     if (row === null) {
-      $("#" + this.laser.current.id).removeClass();
       $("#" + this.laser.current.id).attr("src", laser);
+      $("#" + this.laser.current.id).removeClass();
       setTimeout(() => {
         $("#" + this.laser.current.id).addClass("move_all_up");
       }, this.state.milliseconds);
     } else {
       const move = getMoveValue(row);
-      $("#" + this.laser.current.id).removeClass();
       $("#" + this.laser.current.id).attr("src", laser);
+      $("#" + this.laser.current.id).removeClass();
       setTimeout(() => {
         $("#" + this.laser.current.id).addClass(`move_up_${move}`);
       }, this.state.milliseconds);
