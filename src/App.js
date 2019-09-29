@@ -220,7 +220,8 @@ class App extends Component {
         );
       }
     );
-    localStorage.clear();
+    localStorage.removeItem("playername");
+    localStorage.removeItem("difficulty");
   }
 
   handleClick() {
