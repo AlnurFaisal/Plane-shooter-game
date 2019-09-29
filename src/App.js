@@ -236,7 +236,8 @@ class App extends Component {
       score: score,
       time_taken: timeTaken
     });
-    localStorage.clear();
+    localStorage.removeItem("playername");
+    localStorage.removeItem("difficulty");
     this.setState({
       home: true
     });
