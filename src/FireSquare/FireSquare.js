@@ -117,7 +117,6 @@ class FireSquare extends Component {
       <div className="square_fire" id={"square_" + this.props.indexNum}>
         <img
           id={"fire_" + this.props.indexNum}
-          src=""
           style={this.fireStyle}
           ref={this.laser}
         />
